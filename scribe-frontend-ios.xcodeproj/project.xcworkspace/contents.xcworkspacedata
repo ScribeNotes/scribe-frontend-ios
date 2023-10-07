@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:">
+      location = "self:/Users/tytodd/Desktop/Projects/Sciber/scribe-frontend-ios.xcodeproj">
    </FileRef>
 </Workspace>
