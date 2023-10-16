@@ -198,18 +198,28 @@ private func calculateQuad(t: CGFloat, p1: CGPoint, p2: CGPoint, p3: CGPoint) ->
     return CGPoint(x: x, y: y)
 }
 
-func BezierToStroke(path: UIBezierPath) -> PKDrawing{
+func BezierToStroke(path: UIBezierPath,
+                    ink: PKInk = PKInk(.pen, color: UIColor.black),
+                    samplePoint: PKStrokePoint = PKStrokePoint(
+                        location: CGPoint(x: 0, y: 0),
+                        timeOffset: 0,
+                        size: .init(width: 2, height: 2),
+                        opacity: 1,
+                        force: 0.5,
+                        azimuth: 0,
+                        altitude: 0)
+) -> PKDrawing{
     let strokePaths = path.generatePathPoints().map { pathPoints in
         return PKStrokePath(
             controlPoints: pathPoints.map { pathPoint in
                 PKStrokePoint(
                     location: pathPoint,
-                    timeOffset: 0,
-                    size: .init(width: 5, height: 5),
-                    opacity: 1,
-                    force: 1,
-                    azimuth: 0,
-                    altitude: 0
+                    timeOffset: samplePoint.timeOffset,
+                    size: samplePoint.size,
+                    opacity: samplePoint.opacity,
+                    force: samplePoint.force,
+                    azimuth: samplePoint.azimuth,
+                    altitude: samplePoint.altitude
                 )
             },
             creationDate: Date()
@@ -220,7 +230,7 @@ func BezierToStroke(path: UIBezierPath) -> PKDrawing{
     let drawing = PKDrawing(
         strokes: strokePaths.map { strokePath in
             PKStroke(
-                ink: PKInk(.pen, color: UIColor.black),
+                ink: ink,
                 path: strokePath
             )
         }
@@ -228,19 +238,35 @@ func BezierToStroke(path: UIBezierPath) -> PKDrawing{
     return drawing
 }
 
-func SVGtoStroke()->PKDrawing{
-    let svgURL = Bundle.main.url(forResource: "test", withExtension: "svg")!
-    let paths = SVGBezierPath.pathsFromSVG(at: svgURL)
+func SVGtoStroke(svg: String,
+                 placementPoint: CGPoint,
+                 ink: PKInk = PKInk(.pen, color: UIColor.black),
+                 samplePoint: PKStrokePoint = PKStrokePoint(
+                     location: CGPoint(x: 0, y: 0),
+                     timeOffset: 0,
+                     size: .init(width: 2, height: 2),
+                     opacity: 1,
+                     force: 0.5,
+                     azimuth: 0,
+                     altitude: 0),
+                 target_height: CGFloat = 100
+)->PKDrawing{
+//    let svgURL = Bundle.main.url(forResource: "14", withExtension: "svg")!
+//    let paths = SVGBezierPath.pathsFromSVG(at: svgURL)
+    let paths = SVGBezierPath.paths(fromSVGString: svg)
     var fusedPath = UIBezierPath()
     for path in paths{
         fusedPath.append(path)
     }
-    fusedPath.apply(CGAffineTransform(scaleX: 0.5, y: -0.5))
+    let newHeight = target_height
+    let newWidth = fusedPath.bounds.width/fusedPath.bounds.height * target_height
+    
+    let scaleX  = newWidth / fusedPath.bounds.width
+    let scaleY = newHeight / fusedPath.bounds.height
+    fusedPath.apply(CGAffineTransform(scaleX: scaleX, y: scaleY))
     let bezOrigin = fusedPath.bounds.origin
     fusedPath.apply(CGAffineTransform(translationX: -bezOrigin.x, y: -bezOrigin.y))
-    print(fusedPath.bounds)
-//    fusedPath.apply(CGAffineTransform(translationX: 800, y: 0))
-//    fusedPath.apply(CGAffineTransform(scaleX: 0.01, y: 0.01))
-    return BezierToStroke(path:fusedPath)
+    fusedPath.apply(CGAffineTransform(translationX: placementPoint.x, y: placementPoint.y))
+    return BezierToStroke(path:fusedPath, ink: ink, samplePoint: samplePoint)
     
 }
