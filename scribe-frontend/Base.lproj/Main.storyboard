@@ -65,26 +65,49 @@
                     <view key="view" contentMode="scaleToFill" id="e2X-ei-6fn">
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yqm-3c-1To">
-                                <rect key="frame" x="261" y="68" width="247" height="127"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Evaluateeeee">
-                                    <backgroundConfiguration key="background">
-                                        <color key="backgroundColor" systemColor="systemBrownColor"/>
-                                    </backgroundConfiguration>
-                                    <color key="baseForegroundColor" systemColor="labelColor"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="evaluate:" destination="a4x-ME-bHC" eventType="touchUpInside" id="WnF-29-bdt"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="cga-HI-1Ts"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ts9-MB-KJb"/>
+                    <navigationItem key="navigationItem" id="ts9-MB-KJb">
+                        <rightBarButtonItems>
+                            <barButtonItem style="plain" id="eZC-Co-XcD">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="MPj-hj-0G3">
+                                    <rect key="frame" x="728" y="7.5" width="72" height="35"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" title="Finger"/>
+                                    <connections>
+                                        <action selector="toggleFingerOrPencil:" destination="a4x-ME-bHC" eventType="touchUpInside" id="1G1-Ss-TeF"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="gaW-CH-aZZ">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="PWt-zu-Ld1">
+                                    <rect key="frame" x="631" y="7.5" width="89" height="35"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" title="Evaluate"/>
+                                    <connections>
+                                        <action selector="evaluate:" destination="a4x-ME-bHC" eventType="touchUpInside" id="GM3-Od-M1O"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="LMp-Ed-41T">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="DA2-o2-qbA">
+                                    <rect key="frame" x="441" y="7.5" width="182" height="35"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" title="Add Page"/>
+                                    <connections>
+                                        <action selector="add_page:" destination="a4x-ME-bHC" eventType="touchUpInside" id="h6B-FA-BlI"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="pencilFingerButton" destination="MPj-hj-0G3" id="d9H-7E-YJt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zin-3c-Ctq" sceneMemberID="firstResponder"/>
                 <navigationBar contentMode="scaleToFill" id="95J-hd-hwo">
@@ -104,35 +127,37 @@
                     <view key="view" contentMode="scaleToFill" id="EkG-7H-lGO">
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tDz-bI-mHT" userLabel="fileNameField">
-                                <rect key="frame" x="563" y="97" width="97" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LSP-lR-lIg">
-                                <rect key="frame" x="287" y="74" width="247" height="127"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Save">
-                                    <backgroundConfiguration key="background">
-                                        <color key="backgroundColor" systemColor="systemBrownColor"/>
-                                    </backgroundConfiguration>
-                                    <color key="baseForegroundColor" systemColor="labelColor"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="saveCharachter:" destination="O9f-TX-2VL" eventType="touchUpInside" id="GXQ-tY-WqL"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="9fL-vX-10B"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="K6j-Zy-prp"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="K6j-Zy-prp">
+                        <rightBarButtonItems>
+                            <barButtonItem style="plain" id="Ixp-ia-max">
+                                <textField key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="UCl-T2-XSZ" userLabel="fileNameField">
+                                    <rect key="frame" x="725" y="8" width="75" height="34"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="q0v-5p-0pb">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="odv-P5-sMU">
+                                    <rect key="frame" x="535" y="7.5" width="182" height="35"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" title="Save"/>
+                                    <connections>
+                                        <action selector="saveCharachter:" destination="O9f-TX-2VL" eventType="touchUpInside" id="5IE-ax-IJx"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="fileNameField" destination="tDz-bI-mHT" id="JWn-cb-ulT"/>
+                        <outlet property="fileNameField" destination="UCl-T2-XSZ" id="al2-aB-LjJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yod-3d-gda" sceneMemberID="firstResponder"/>
@@ -144,7 +169,7 @@
                     </items>
                 </navigationBar>
             </objects>
-            <point key="canvasLocation" x="1632" y="399"/>
+            <point key="canvasLocation" x="1631.7073170731708" y="398.64406779661022"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4La-3r-FDO">

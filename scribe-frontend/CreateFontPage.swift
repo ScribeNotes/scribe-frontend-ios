@@ -33,7 +33,7 @@ class CreateFontPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate
     
     override func viewDidLayoutSubviews(){
         super.viewDidLayoutSubviews()
-        canvasView.frame = CGRect(x: 0, y: 300, width: view.bounds.width, height: view.bounds.height)
+        canvasView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,11 +47,11 @@ class CreateFontPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate
     
     @IBAction func saveCharachter(_ sender: Any) {
         var (selectionDrawing, placementPoint) = getLassoSelection()
-        
         let svg = PKDrawingToSVG(drawing: selectionDrawing)
         
 //        saveSVG(svgContent: svg, name: fileNameField.text!)
         saveCustomFontFile(svgContent: svg, charCode: fileNameField.text!)
+        print("saved")
         
     }
     

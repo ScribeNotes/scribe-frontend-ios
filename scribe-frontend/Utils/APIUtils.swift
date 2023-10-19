@@ -9,7 +9,10 @@ import Foundation
 
 func sendPostRequest(with svg: String, completion: @escaping (Result<String, Error>) -> Void) {
     // Define the URL for the FastAPI route
-    if let url = URL(string: "http://0.0.0.0:8000/evaluate/") {
+    var urlString = "http://0.0.0.0:8000/evaluate/"
+    let ipAdress = "10.29.178.18" //change to your computers IP adress
+    urlString = "http://\(ipAdress):8000/evaluate/"
+    if let url = URL(string: urlString) {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         

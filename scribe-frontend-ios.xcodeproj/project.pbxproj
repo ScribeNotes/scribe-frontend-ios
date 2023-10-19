@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D1328D02ADF5C48005BEB8E /* 12.svg in Resources */ = {isa = PBXBuildFile; fileRef = 6D1328CF2ADF5C48005BEB8E /* 12.svg */; };
 		6D16D1D02AB67D2B0035137C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D16D1CF2AB67D2B0035137C /* AppDelegate.swift */; };
 		6D16D1D22AB67D2B0035137C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D16D1D12AB67D2B0035137C /* SceneDelegate.swift */; };
 		6D16D1D42AB67D2B0035137C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D16D1D32AB67D2B0035137C /* ViewController.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6D1328CF2ADF5C48005BEB8E /* 12.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 12.svg; sourceTree = "<group>"; };
 		6D16D1CC2AB67D2B0035137C /* scribe-frontend-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "scribe-frontend-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D16D1CF2AB67D2B0035137C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6D16D1D12AB67D2B0035137C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				6D4E3B282ACA252200D33F96 /* test.svg */,
 				6D7FAD362ADBA1B900DFA2F6 /* 14.svg */,
 				6D4E3B262ACA24DA00D33F96 /* test.png */,
+				6D1328CF2ADF5C48005BEB8E /* 12.svg */,
 				6D245E802AD90B690076CF6A /* 36.svg */,
 				6D4E3B222ACA23C100D33F96 /* 321.svg */,
 				6DE97BCC2AC1418D0039925C /* 3.svg */,
@@ -304,6 +307,7 @@
 				6D4E3B292ACA252200D33F96 /* test.svg in Resources */,
 				6D16D1D92AB67D2D0035137C /* Assets.xcassets in Resources */,
 				6D245E812AD90B6A0076CF6A /* 36.svg in Resources */,
+				6D1328D02ADF5C48005BEB8E /* 12.svg in Resources */,
 				6D7FAD372ADBA1B900DFA2F6 /* 14.svg in Resources */,
 				6DE97BCD2AC1418D0039925C /* 3.svg in Resources */,
 				6D16D1D72AB67D2B0035137C /* Main.storyboard in Resources */,
