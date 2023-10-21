@@ -10,6 +10,22 @@ import UIKit
 import SwiftDraw
 import PocketSVG
 
+extension UIColor {
+    convenience init(hex: String, alpha: CGFloat = 1.0) {
+        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+
+        var rgb: UInt64 = 0
+
+        Scanner(string: hexSanitized).scanHexInt64(&rgb)
+
+        let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
+        let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
+        let blue = CGFloat(rgb & 0x0000FF) / 255.0
+
+        self.init(red: red, green: green, blue: blue, alpha: alpha)
+    }
+}
 extension PKStroke: Equatable {
     public static func ==(lhs: PKStroke, rhs: PKStroke) -> Bool {
         return (lhs as PKStrokeReference) === (rhs as PKStrokeReference)
@@ -34,16 +50,18 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         canvas.drawingPolicy = .anyInput
         return canvas
     }()
+    let pageView = UIView()
     //scroll variables
     let pageAspectRatio = 8.5/11
     var pageWidth: CGFloat = 0 //set in viewDidLoad
     var pageHeight:CGFloat = 0 //set in viewDidLoad
     var canvasOverscrollHeight: CGFloat = 0 //set in viewDidLoad
     var pageBreakLayer: CAShapeLayer = CAShapeLayer()
+    var pageLayer:CAShapeLayer = CAShapeLayer()
+    let containerLayer = CALayer()
     
-    //tool picker
+    //Utilities
     let toolPicker = PKToolPicker()
-    
     @IBOutlet weak var pencilFingerButton: UIButton!
     
     
@@ -54,7 +72,10 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         //canvasView setup
         canvasView.drawing = PKDrawing()
         canvasView.delegate = self
-        canvasView.alwaysBounceVertical = true
+        canvasView.bounces = false
+        canvasView.alwaysBounceVertical = false
+        canvasView.alwaysBounceHorizontal = false
+        canvasView.bouncesZoom = true
         canvasView.drawingPolicy = PKCanvasViewDrawingPolicy.anyInput
         
         //Page setup
@@ -64,9 +85,14 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         
         // UI Setup
         pencilFingerButton.setTitle("Pencil", for: UIControl.State.normal)
+        navigationController?.navigationBar.backgroundColor = UIColor.white
         
         //View Setup
         view.addSubview(canvasView)
+        view.backgroundColor = UIColor(hex: "#dccfbc")
+        canvasView.backgroundColor = .clear
+        canvasView.isOpaque = true
+        
     }
     
     override func viewDidLayoutSubviews(){
@@ -74,12 +100,11 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         canvasView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
         
         let canvasScale = canvasView.bounds.width / pageWidth
-        canvasView.minimumZoomScale = 0.1
-        canvasView.maximumZoomScale = 10
+        canvasView.minimumZoomScale = 0.5
+        canvasView.maximumZoomScale = 5
         canvasView.zoomScale = canvasScale
         updateContentSizeForDrawing()
         redrawPageBreaks()
-//        canvasView.contentOffset = CGPoint(x: 0, y: -canvasView.adjustedContentInset.top)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -128,7 +153,6 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     }
     
     @IBAction func toggleFingerOrPencil(_ sender: Any){
-        print("toggle")
         if(canvasView.drawingPolicy == PKCanvasViewDrawingPolicy.anyInput){
             canvasView.drawingPolicy = PKCanvasViewDrawingPolicy.pencilOnly
             pencilFingerButton.setTitle("Finger", for: UIControl.State.normal)
@@ -140,35 +164,63 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     }
     
     //ViewController Callbacks
-    func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
-//        updateContentSizeForDrawing()
+    func scrollViewDidZoom(_ scrollView: UIScrollView){
+        updateContentSizeForDrawing()
     }
+    
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        print(abs(canvasView.zoomScale - 1))
+        if(abs(canvasView.zoomScale - 1) < 0.2){
+            canvasView.setZoomScale(1.0, animated: true)
+        }
+        updateContentSizeForDrawing(animated:true)
+    }
+    
+    
     
     //CanvasPage Helpers
     func addPage(){
         canvasOverscrollHeight += pageHeight
         updateContentSizeForDrawing()
-        redrawPageBreaks()
     }
     
     func redrawPageBreaks(){
         pageBreakLayer.removeFromSuperlayer()
         pageBreakLayer = CAShapeLayer()
+        
         let pageBreakPath = UIBezierPath()
         for lineY in stride(from: pageHeight, to: canvasOverscrollHeight, by: pageHeight) {
-            print(lineY)
             pageBreakPath.move(to: CGPoint(x: 0, y: lineY * canvasView.zoomScale))
             pageBreakPath.addLine(to: CGPoint(x: pageWidth * canvasView.maximumZoomScale, y: lineY * canvasView.zoomScale))
             pageBreakPath.lineWidth = 3.0
             pageBreakPath.stroke()
         }
+        
         pageBreakLayer.path = pageBreakPath.cgPath
-        pageBreakLayer.strokeColor = UIColor.red.cgColor
+        pageBreakLayer.strokeColor = UIColor(hex: "#dccfbc").cgColor
         pageBreakLayer.lineWidth = 3.0
-        canvasView.layer.addSublayer(pageBreakLayer)
+        
+        let pageRect = UIBezierPath(rect: CGRect(x: 0, y: 0, width: pageWidth * canvasView.zoomScale, height: canvasOverscrollHeight * canvasView.zoomScale))
+        pageLayer.path = pageRect.cgPath
+        pageLayer.fillColor = UIColor.white.cgColor
+
+        canvasView.layer.insertSublayer(pageBreakLayer, at: 0)
+        pageLayer.zPosition = 0
+        canvasView.layer.insertSublayer(pageLayer, at: 0)
+        
+        var contentHeight: CGFloat
+        var contentWidth: CGFloat
+        if !canvasView.drawing.bounds.isNull{
+            contentWidth = pageWidth * canvasView.zoomScale
+            contentHeight = self.canvasOverscrollHeight * canvasView.zoomScale
+            
+        }else{
+            contentWidth = canvasView.bounds.width
+            contentHeight = canvasView.bounds.height
+        }
     }
     
-    func updateContentSizeForDrawing(){ //scroll
+    func updateContentSizeForDrawing(animated: Bool = false){
         let drawing = canvasView.drawing
         var contentHeight: CGFloat
         var contentWidth: CGFloat
@@ -178,13 +230,20 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
             contentHeight = self.canvasOverscrollHeight * canvasView.zoomScale
             
         }else{
-            print("else")
             contentWidth = canvasView.bounds.width
             contentHeight = canvasView.bounds.height
         }
         
-        
         canvasView.contentSize = CGSize(width: contentWidth, height: contentHeight)
+        let contentOffset = max(0, (canvasView.bounds.width - contentWidth)/2)
+        if(canvasView.zoomScale < 1){
+            canvasView.setContentOffset(CGPoint(x: -contentOffset, y:0), animated: animated)
+            canvasView.contentInset = UIEdgeInsets(top: 0, left: contentOffset, bottom: 0, right: 0)
+        }else if(canvasView.zoomScale == 1){
+            canvasView.setContentOffset(CGPoint(x: 0, y:0), animated: animated)
+            canvasView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        }
+        redrawPageBreaks()
     }
     
     func getLassoSelection() -> (PKDrawing, CGPoint){
@@ -195,10 +254,10 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
        // Issue a delete command so the selected strokes are deleted
        UIApplication.shared.sendAction(#selector(delete), to: nil, from: self, for: nil)
        
-//       // Store the drawing with the selected strokes removed
+       // Store the drawing with the selected strokes removed
        let unselectedStrokes = canvasView.drawing.strokes
-//
-//       // Put the original strokes back in the PKCanvasView
+        
+        // Put the original strokes back in the PKCanvasView
        canvasView.drawing.strokes = currentDrawingStrokes
         
         var selectedStrokes: [PencilKit.PKStroke] = []
