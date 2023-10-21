@@ -60,6 +60,10 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     var pageLayer:CAShapeLayer = CAShapeLayer()
     let containerLayer = CALayer()
     
+    //Zoom Variables
+    var startingWidth:CGFloat = 0.0
+    var homeZoom:CGFloat = 1.0
+    
     //Utilities
     let toolPicker = PKToolPicker()
     @IBOutlet weak var pencilFingerButton: UIButton!
@@ -72,8 +76,8 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         //canvasView setup
         canvasView.drawing = PKDrawing()
         canvasView.delegate = self
-        canvasView.bounces = false
-        canvasView.alwaysBounceVertical = false
+        canvasView.bounces = true
+        canvasView.alwaysBounceVertical = true
         canvasView.alwaysBounceHorizontal = false
         canvasView.bouncesZoom = true
         canvasView.drawingPolicy = PKCanvasViewDrawingPolicy.anyInput
@@ -82,6 +86,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         pageWidth = view.bounds.width
         pageHeight = 1/pageAspectRatio * pageWidth
         canvasOverscrollHeight = pageHeight
+        startingWidth = view.bounds.width
         
         // UI Setup
         pencilFingerButton.setTitle("Pencil", for: UIControl.State.normal)
@@ -103,6 +108,12 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         canvasView.minimumZoomScale = 0.5
         canvasView.maximumZoomScale = 5
         canvasView.zoomScale = canvasScale
+        
+        if(view.bounds.width != startingWidth){
+            homeZoom = 1 * view.bounds.width/startingWidth
+            
+        }
+        
         updateContentSizeForDrawing()
         redrawPageBreaks()
     }
@@ -123,9 +134,6 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     
 
 // Button Callbacks
-    @IBAction func add_page(_ sender: Any){
-        addPage()
-    }
     @IBAction func evaluate(_ sender: Any) {
         print("evaluate")
         var (selectionDrawing, placementPoint) = getLassoSelection()
@@ -169,11 +177,16 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     }
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        print(abs(canvasView.zoomScale - 1))
-        if(abs(canvasView.zoomScale - 1) < 0.2){
-            canvasView.setZoomScale(1.0, animated: true)
+        if(abs(canvasView.zoomScale - homeZoom) < 0.2){
+            canvasView.setZoomScale(homeZoom, animated: true)
         }
         updateContentSizeForDrawing(animated:true)
+    }
+    
+    func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
+        if(canvasView.drawing.bounds.maxY > canvasOverscrollHeight - pageHeight){
+            addPage()
+        }
     }
     
     
@@ -207,17 +220,6 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         canvasView.layer.insertSublayer(pageBreakLayer, at: 0)
         pageLayer.zPosition = 0
         canvasView.layer.insertSublayer(pageLayer, at: 0)
-        
-        var contentHeight: CGFloat
-        var contentWidth: CGFloat
-        if !canvasView.drawing.bounds.isNull{
-            contentWidth = pageWidth * canvasView.zoomScale
-            contentHeight = self.canvasOverscrollHeight * canvasView.zoomScale
-            
-        }else{
-            contentWidth = canvasView.bounds.width
-            contentHeight = canvasView.bounds.height
-        }
     }
     
     func updateContentSizeForDrawing(animated: Bool = false){
@@ -236,12 +238,12 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         
         canvasView.contentSize = CGSize(width: contentWidth, height: contentHeight)
         let contentOffset = max(0, (canvasView.bounds.width - contentWidth)/2)
-        if(canvasView.zoomScale < 1){
-            canvasView.setContentOffset(CGPoint(x: -contentOffset, y:0), animated: animated)
-            canvasView.contentInset = UIEdgeInsets(top: 0, left: contentOffset, bottom: 0, right: 0)
-        }else if(canvasView.zoomScale == 1){
-            canvasView.setContentOffset(CGPoint(x: 0, y:0), animated: animated)
-            canvasView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        if(canvasView.zoomScale < homeZoom){
+            canvasView.setContentOffset(CGPoint(x: -contentOffset, y:canvasView.contentOffset.y), animated: animated)
+            canvasView.contentInset = UIEdgeInsets(top: canvasView.contentInset.top, left: contentOffset, bottom: 0, right: 0)
+        }else if(canvasView.zoomScale == homeZoom){
+//            canvasView.setContentOffset(CGPoint(x: 0, y:0), animated: animated)
+            canvasView.contentInset = UIEdgeInsets(top: canvasView.contentInset.top, left: 0, bottom: 0, right: 0)
         }
         redrawPageBreaks()
     }

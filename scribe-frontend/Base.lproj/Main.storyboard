@@ -92,17 +92,6 @@
                                     </connections>
                                 </button>
                             </barButtonItem>
-                            <barButtonItem style="plain" id="LMp-Ed-41T">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="DA2-o2-qbA">
-                                    <rect key="frame" x="441" y="7.5" width="182" height="35"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" title="Add Page"/>
-                                    <connections>
-                                        <action selector="add_page:" destination="a4x-ME-bHC" eventType="touchUpInside" id="h6B-FA-BlI"/>
-                                    </connections>
-                                </button>
-                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
