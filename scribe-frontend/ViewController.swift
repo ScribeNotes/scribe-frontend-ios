@@ -40,6 +40,7 @@ class ViewController: UIViewController , UIDocumentPickerDelegate{
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         var canvasPage = storyboard.instantiateViewController(withIdentifier: "CanvasPage") as? CanvasPage
         canvasPage?.notePath = selectedURL
+        print("selectedFile",selectedURL.path)
         
         self.navigationController?.pushViewController(canvasPage!, animated: true)
     }

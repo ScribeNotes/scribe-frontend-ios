@@ -84,6 +84,13 @@
                         <accessibility key="accessibilityConfiguration" identifier="CanvasPage"/>
                     </view>
                     <navigationItem key="navigationItem" id="ts9-MB-KJb">
+                        <nil key="title"/>
+                        <textField key="titleView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="0Wa-cs-upB">
+                            <rect key="frame" x="295" y="8" width="230" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
                         <rightBarButtonItems>
                             <barButtonItem style="plain" id="eZC-Co-XcD">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="MPj-hj-0G3">
@@ -107,20 +114,10 @@
                                     </connections>
                                 </button>
                             </barButtonItem>
-                            <barButtonItem style="plain" id="gbD-le-pcP">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="GuL-4i-wkz">
-                                    <rect key="frame" x="441" y="7.5" width="182" height="35"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" title="Save"/>
-                                    <connections>
-                                        <action selector="saveButtonPressed:" destination="a4x-ME-bHC" eventType="touchUpInside" id="IUs-9O-Est"/>
-                                    </connections>
-                                </button>
-                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="nameTextField" destination="0Wa-cs-upB" id="uk5-LH-HmR"/>
                         <outlet property="pencilFingerButton" destination="MPj-hj-0G3" id="d9H-7E-YJt"/>
                     </connections>
                 </viewController>
@@ -133,7 +130,7 @@
                     </items>
                 </navigationBar>
             </objects>
-            <point key="canvasLocation" x="1632" y="-357"/>
+            <point key="canvasLocation" x="1631.7073170731708" y="-357.4576271186441"/>
         </scene>
         <!--Create Font Page-->
         <scene sceneID="fLD-Gw-fE5">

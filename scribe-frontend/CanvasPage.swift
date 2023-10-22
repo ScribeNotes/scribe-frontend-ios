@@ -68,6 +68,8 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     let toolPicker = PKToolPicker()
     @IBOutlet weak var pencilFingerButton: UIButton!
     
+    @IBOutlet weak var nameTextField: UITextField!
+    
     //File Variables
     var notePath: URL?
     
@@ -100,6 +102,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         
         // UI Setup
         pencilFingerButton?.setTitle("Pencil", for: UIControl.State.normal)
+        nameTextField.delegate = self
         navigationController?.navigationBar.backgroundColor = UIColor.white
         
         //View Setup
@@ -109,12 +112,23 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         canvasView.isOpaque = true
         
         //Load Note
-        print(notePath)
+        print("note path1",notePath)
         if notePath != nil{
             let uploadedDrawing = openDrawingFromURL(notePath!)
+            print("uploadedDrawing", uploadedDrawing)
             canvasView.drawing = uploadedDrawing ?? canvasView.drawing
+            
+            let fileName = notePath!.deletingPathExtension().lastPathComponent
+            nameTextField.text = fileName
+        }else{
+            notePath = getDefaultUnitledNotePath()
+            let fileName = notePath!.deletingPathExtension().lastPathComponent
+            nameTextField.text = fileName
         }
+        print("notePath", notePath)
         adjustNumPages()
+        
+        print("canvas drawing", canvasView.drawing)
         
     }
     
@@ -150,8 +164,8 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     
     
     
-
-// Button Callbacks
+    
+    // Button Callbacks
     @IBAction func evaluate(_ sender: Any) {
         print("evaluate")
         var (selectionDrawing, placementPoint) = getLassoSelection()
@@ -192,7 +206,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     @IBAction func saveButtonPressed(_ sender: Any){
         save()
     }
-
+    
     
     //ViewController Callbacks
     func scrollViewDidZoom(_ scrollView: UIScrollView){
@@ -208,11 +222,33 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     
     func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
         adjustNumPages()
+        save()
     }
     
+    func textFieldDidEndEditing(_ textField: UITextField){
+        print("text field changed")
+        let basePath = notePath!.deletingLastPathComponent().path
+        if basePath != nil {
+            if !textField.text!.isEmpty {
+                var newFileName = "\(textField.text!).scribe"
+                let updatedURL = URL(fileURLWithPath: basePath).appendingPathComponent(newFileName)
+                print("Updated URL: \(updatedURL)")
+                let newPath = renameFile(at: "Notes/\(notePath!.lastPathComponent)", to: newFileName)
+                notePath = newPath
+            }else{
+                textField.text! = notePath!.deletingPathExtension().lastPathComponent
+            }
+        }
+        
+        print("new notePath",notePath!.path)
+    }
+        
     //CanvasPage Helpers
     func save(){
-        let filePath = "testDrawing.scribe"
+        if notePath == nil{
+            print("nil note path")
+            return
+        }
         let data:Data
         do {
             data = try canvasView.drawing.dataRepresentation()
@@ -221,8 +257,8 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
             //FIXME tell user there has been an error
             return
         }
-        
-        saveFile(path: "Notes/" + filePath, data: data)
+        print("name", notePath!.lastPathComponent)
+        saveFile(path: "Notes/\(notePath!.lastPathComponent)", data: data)
         
     }
     
@@ -257,7 +293,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         let pageRect = UIBezierPath(rect: CGRect(x: 0, y: 0, width: pageWidth * canvasView.zoomScale, height: canvasOverscrollHeight * canvasView.zoomScale))
         pageLayer.path = pageRect.cgPath
         pageLayer.fillColor = UIColor.white.cgColor
-
+        
         canvasView.layer.insertSublayer(pageBreakLayer, at: 0)
         pageLayer.zPosition = 0
         canvasView.layer.insertSublayer(pageLayer, at: 0)
@@ -283,25 +319,25 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
             canvasView.setContentOffset(CGPoint(x: -contentOffset, y:canvasView.contentOffset.y), animated: animated)
             canvasView.contentInset = UIEdgeInsets(top: canvasView.contentInset.top, left: contentOffset, bottom: 0, right: 0)
         }else if(canvasView.zoomScale == homeZoom){
-//            canvasView.setContentOffset(CGPoint(x: 0, y:0), animated: animated)
+            //            canvasView.setContentOffset(CGPoint(x: 0, y:0), animated: animated)
             canvasView.contentInset = UIEdgeInsets(top: canvasView.contentInset.top, left: 0, bottom: 0, right: 0)
         }
         redrawPageBreaks()
     }
     
     func getLassoSelection() -> (PKDrawing, CGPoint){
-       // Assuming the lasso tool has made a selection at this point
-       // Make a backup of the current PKCanvasView drawing state
-       let currentDrawingStrokes = canvasView.drawing.strokes
-       
-       // Issue a delete command so the selected strokes are deleted
-       UIApplication.shared.sendAction(#selector(delete), to: nil, from: self, for: nil)
-       
-       // Store the drawing with the selected strokes removed
-       let unselectedStrokes = canvasView.drawing.strokes
+        // Assuming the lasso tool has made a selection at this point
+        // Make a backup of the current PKCanvasView drawing state
+        let currentDrawingStrokes = canvasView.drawing.strokes
+        
+        // Issue a delete command so the selected strokes are deleted
+        UIApplication.shared.sendAction(#selector(delete), to: nil, from: self, for: nil)
+        
+        // Store the drawing with the selected strokes removed
+        let unselectedStrokes = canvasView.drawing.strokes
         
         // Put the original strokes back in the PKCanvasView
-       canvasView.drawing.strokes = currentDrawingStrokes
+        canvasView.drawing.strokes = currentDrawingStrokes
         
         var selectedStrokes: [PencilKit.PKStroke] = []
         for currentStroke in currentDrawingStrokes{
@@ -338,7 +374,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         let placmentPoint = CGPoint(x : maxX, y: y_offset)
         
         return (drawing, placmentPoint)
-   }
+    }
     
     func drawCircle(_ point: CGPoint){
         let circlePath = UIBezierPath(arcCenter: point, radius: CGFloat(20), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true)
@@ -346,7 +382,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         let strokes = BezierToStroke(path: circlePath)
         canvasView.drawing.append(strokes)
     }
-    
-    
-}
+        
+        
+    }
 
