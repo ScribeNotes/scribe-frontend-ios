@@ -17,10 +17,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="030-QV-ZTM">
-                                <rect key="frame" x="253" y="495" width="247" height="127"/>
+                                <rect key="frame" x="287" y="323" width="247" height="127"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Begin">
+                                <buttonConfiguration key="configuration" style="plain" title="New Note">
                                     <backgroundConfiguration key="background">
                                         <color key="backgroundColor" systemColor="systemBrownColor"/>
                                     </backgroundConfiguration>
@@ -30,8 +30,22 @@
                                     <segue destination="a4x-ME-bHC" kind="show" id="vGc-kp-zvJ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tj3-XX-kOa">
+                                <rect key="frame" x="287" y="496" width="247" height="127"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Open Note">
+                                    <backgroundConfiguration key="background">
+                                        <color key="backgroundColor" systemColor="systemBrownColor"/>
+                                    </backgroundConfiguration>
+                                    <color key="baseForegroundColor" systemColor="labelColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="openNoteButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0Tr-6U-Mc6"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BnL-1P-bcr">
-                                <rect key="frame" x="253" y="701" width="247" height="81"/>
+                                <rect key="frame" x="287" y="701" width="247" height="81"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBrownColor"/>
                                 <color key="tintColor" systemColor="labelColor"/>
@@ -61,12 +75,13 @@
         <!--Canvas Page-->
         <scene sceneID="iXu-m2-Bhy">
             <objects>
-                <viewController id="a4x-ME-bHC" customClass="CanvasPage" customModule="scribe_frontend_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CanvasPage" id="a4x-ME-bHC" customClass="CanvasPage" customModule="scribe_frontend_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e2X-ei-6fn">
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="cga-HI-1Ts"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <accessibility key="accessibilityConfiguration" identifier="CanvasPage"/>
                     </view>
                     <navigationItem key="navigationItem" id="ts9-MB-KJb">
                         <rightBarButtonItems>
@@ -89,6 +104,17 @@
                                     <buttonConfiguration key="configuration" style="plain" title="Evaluate"/>
                                     <connections>
                                         <action selector="evaluate:" destination="a4x-ME-bHC" eventType="touchUpInside" id="GM3-Od-M1O"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="gbD-le-pcP">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="GuL-4i-wkz">
+                                    <rect key="frame" x="441" y="7.5" width="182" height="35"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" title="Save"/>
+                                    <connections>
+                                        <action selector="saveButtonPressed:" destination="a4x-ME-bHC" eventType="touchUpInside" id="IUs-9O-Est"/>
                                     </connections>
                                 </button>
                             </barButtonItem>

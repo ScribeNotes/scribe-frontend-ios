@@ -68,6 +68,9 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     let toolPicker = PKToolPicker()
     @IBOutlet weak var pencilFingerButton: UIButton!
     
+    //File Variables
+    var notePath: URL?
+    
     
     //ViewController Setup
     override func viewDidLoad(){
@@ -82,14 +85,21 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         canvasView.bouncesZoom = true
         canvasView.drawingPolicy = PKCanvasViewDrawingPolicy.anyInput
         
+        //FIXME hacky way of avoiding errors when there is no drawing on the canvasView
+        let dotPoint = PKStrokePoint(location: CGPoint(x: 0, y: 0), timeOffset: 0.0, size: CGSize(width: 1, height: 1), opacity: 1.0, force: 1.0, azimuth: 0, altitude: 0)
+        let dotStroke = PKStroke(ink: PKInk(.pen, color: UIColor.black), path: PKStrokePath(controlPoints:[dotPoint], creationDate: Date()))
+        canvasView.drawing.append(PKDrawing(strokes: [dotStroke]))
+        
         //Page setup
         pageWidth = view.bounds.width
         pageHeight = 1/pageAspectRatio * pageWidth
         canvasOverscrollHeight = pageHeight
         startingWidth = view.bounds.width
+        print("pageHeight",pageHeight)
+        print("canvasOverscrollHeight", canvasOverscrollHeight)
         
         // UI Setup
-        pencilFingerButton.setTitle("Pencil", for: UIControl.State.normal)
+        pencilFingerButton?.setTitle("Pencil", for: UIControl.State.normal)
         navigationController?.navigationBar.backgroundColor = UIColor.white
         
         //View Setup
@@ -97,6 +107,14 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         view.backgroundColor = UIColor(hex: "#dccfbc")
         canvasView.backgroundColor = .clear
         canvasView.isOpaque = true
+        
+        //Load Note
+        print(notePath)
+        if notePath != nil{
+            let uploadedDrawing = openDrawingFromURL(notePath!)
+            canvasView.drawing = uploadedDrawing ?? canvasView.drawing
+        }
+        adjustNumPages()
         
     }
     
@@ -171,6 +189,11 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         
     }
     
+    @IBAction func saveButtonPressed(_ sender: Any){
+        save()
+    }
+
+    
     //ViewController Callbacks
     func scrollViewDidZoom(_ scrollView: UIScrollView){
         updateContentSizeForDrawing()
@@ -184,20 +207,38 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     }
     
     func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
-        if(canvasView.drawing.bounds.maxY > canvasOverscrollHeight - pageHeight){
-            addPage()
-        }
+        adjustNumPages()
     }
     
-    
-    
     //CanvasPage Helpers
-    func addPage(){
-        canvasOverscrollHeight += pageHeight
+    func save(){
+        let filePath = "testDrawing.scribe"
+        let data:Data
+        do {
+            data = try canvasView.drawing.dataRepresentation()
+        } catch {
+            print("Error converting drawing to data: \(error)")
+            //FIXME tell user there has been an error
+            return
+        }
+        
+        saveFile(path: "Notes/" + filePath, data: data)
+        
+    }
+    
+    func adjustNumPages(){
+        if pageHeight == 0{
+            return
+        }
+        let numPages = ceil(canvasView.drawing.bounds.maxY / pageHeight) + 1
+        canvasOverscrollHeight = numPages * pageHeight
         updateContentSizeForDrawing()
     }
     
     func redrawPageBreaks(){
+        if(pageHeight == 0 || canvasOverscrollHeight == 0 ){
+            return
+        }
         pageBreakLayer.removeFromSuperlayer()
         pageBreakLayer = CAShapeLayer()
         
