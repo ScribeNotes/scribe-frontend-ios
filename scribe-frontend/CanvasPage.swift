@@ -439,22 +439,22 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
     func saveDrawingAsPDF(pdfURL: URL) {
         // Create a PDF context
         UIGraphicsBeginPDFContextToFile(pdfURL.path, CGRect.zero, nil)
-        
+
         for pageIndex in 1..<Int(floor(canvasOverscrollHeight / pageHeight)) {
             // Start a new page in the PDF
             UIGraphicsBeginPDFPageWithInfo(CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight), nil) // Standard US Letter size
 
             // Render the drawing on the current page
             let pageBounds = CGRect(x: 0, y: CGFloat(pageIndex-1)*pageHeight, width: pageWidth, height: CGFloat(pageIndex)*pageHeight)
-            let image = canvasView.drawing.image(from: pageBounds, scale: 1.0)
+            let image = canvasView.drawing.image(from: pageBounds, scale: 5.0)
             image.draw(at: CGPoint(x: 0, y: 0))
         }
-        
+
         // Finish and save the PDF
         UIGraphicsEndPDFContext()
-        
+
         print("PDF saved at: \(pdfURL.path)")
     }
-
+    
     }
 
