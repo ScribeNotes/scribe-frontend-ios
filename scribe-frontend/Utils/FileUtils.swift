@@ -105,3 +105,22 @@ func renameFile(at: String, to: String) -> URL? {
     }
     return nil
 }
+
+func createFolderIfDoesntExist(_ name:String) {
+    let fileManager = FileManager.default
+    if let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+        let folderURL = documentsDirectory.appendingPathComponent(name)
+        
+        // Check if the "exports" folder exists, and if not, create it.
+        if !fileManager.fileExists(atPath: folderURL.path) {
+            do {
+                try fileManager.createDirectory(at: folderURL, withIntermediateDirectories: true, attributes: nil)
+                print("Created 'exports' folder at \(folderURL.path)")
+            } catch {
+                print("Error creating 'exports' folder: \(error.localizedDescription)")
+            }
+        } else {
+            print("'exports' folder already exists at \(folderURL.path)")
+        }
+    }
+}

@@ -43,7 +43,7 @@ class LineView: UIView {
     }
 }
 
-class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
+class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UIDocumentInteractionControllerDelegate {
     
     private let canvasView: PKCanvasView = {
         let canvas = PKCanvasView()
@@ -51,6 +51,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         return canvas
     }()
     let pageView = UIView()
+    
     //scroll variables
     let pageAspectRatio = 8.5/11
     var pageWidth: CGFloat = 0 //set in viewDidLoad
@@ -67,12 +68,12 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     //Utilities
     let toolPicker = PKToolPicker()
     @IBOutlet weak var pencilFingerButton: UIButton!
-    
     @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var shareButton:UIButton!
+    var documentController: UIDocumentInteractionController!
     
     //File Variables
     var notePath: URL?
-    
     
     //ViewController Setup
     override func viewDidLoad(){
@@ -128,8 +129,6 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         print("notePath", notePath)
         adjustNumPages()
         
-        print("canvas drawing", canvasView.drawing)
-        
     }
     
     override func viewDidLayoutSubviews(){
@@ -143,7 +142,9 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         
         if(view.bounds.width != startingWidth){
             homeZoom = 1 * view.bounds.width/startingWidth
-            
+            print("new home zoom")
+        }else{
+            homeZoom = 1
         }
         
         updateContentSizeForDrawing()
@@ -166,6 +167,28 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     
     
     // Button Callbacks
+    @IBAction func shareButtonCallback(_ sender: Any) {
+        print("share")
+        if let window = UIApplication.shared.keyWindow {
+            
+            let locationInWindow = shareButton.convert(shareButton.frame, to: window)
+            let noteName = notePath!.deletingPathExtension().lastPathComponent
+            print("noteName",noteName)
+            createFolderIfDoesntExist("Exports")
+            let url = createFileURLInDocumentsDirectory(fileName: "Exports/\(noteName).pdf")
+            saveDrawingAsPDF(pdfURL: url)
+            
+            let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: [])
+            
+            if let popoverPresentationController = activityViewController.popoverPresentationController {
+                popoverPresentationController.sourceView = self.view
+                popoverPresentationController.sourceRect = locationInWindow
+            }
+
+            present(activityViewController, animated: true, completion: nil)
+        }
+    }
+    
     @IBAction func evaluate(_ sender: Any) {
         print("evaluate")
         var (selectionDrawing, placementPoint) = getLassoSelection()
@@ -190,7 +213,8 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
                 var nanoTime = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
                 var timeInterval = Double(nanoTime) / 1_000_000_000 // Convert to seconds
                 print("request time: \(timeInterval) seconds")
-//                let strokes = textTo(svg:responseSVG, placementPoint: placementPoint, ink: selection_ink, samplePoint: sample_point, target_height: selectionDrawing.bounds.height)
+                //keep for working with svgs
+//                let strokes = textTo(svg:responseSVG, placementPoint: placementPoint, ink:                                    selection_ink, samplePoint: sample_point, target_height:                                    selectionDrawing.bounds.height)
                 
                 let answer = textToHandwriting(text: responseAnswer, placementPoint: placementPoint, ink: selection_ink, samplePoint: sample_point, target_height: selectionDrawing.bounds.height)
                 self.canvasView.drawing.append(answer!)
@@ -219,6 +243,10 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     
     
     //ViewController Callbacks
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+    
     func scrollViewDidZoom(_ scrollView: UIScrollView){
         updateContentSizeForDrawing()
     }
@@ -407,7 +435,26 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         let strokes = BezierToStroke(path: circlePath)
         canvasView.drawing.append(strokes)
     }
+    
+    func saveDrawingAsPDF(pdfURL: URL) {
+        // Create a PDF context
+        UIGraphicsBeginPDFContextToFile(pdfURL.path, CGRect.zero, nil)
         
+        for pageIndex in 1..<Int(floor(canvasOverscrollHeight / pageHeight)) {
+            // Start a new page in the PDF
+            UIGraphicsBeginPDFPageWithInfo(CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight), nil) // Standard US Letter size
+
+            // Render the drawing on the current page
+            let pageBounds = CGRect(x: 0, y: CGFloat(pageIndex-1)*pageHeight, width: pageWidth, height: CGFloat(pageIndex)*pageHeight)
+            let image = canvasView.drawing.image(from: pageBounds, scale: 1.0)
+            image.draw(at: CGPoint(x: 0, y: 0))
+        }
         
+        // Finish and save the PDF
+        UIGraphicsEndPDFContext()
+        
+        print("PDF saved at: \(pdfURL.path)")
+    }
+
     }
 

@@ -86,7 +86,7 @@
                     <navigationItem key="navigationItem" id="ts9-MB-KJb">
                         <nil key="title"/>
                         <textField key="titleView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="0Wa-cs-upB">
-                            <rect key="frame" x="295" y="8" width="230" height="34"/>
+                            <rect key="frame" x="205" y="8" width="230" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -114,11 +114,23 @@
                                     </connections>
                                 </button>
                             </barButtonItem>
+                            <barButtonItem style="plain" id="a8m-jL-PYB">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="sv2-bh-mC8">
+                                    <rect key="frame" x="441" y="7.5" width="182" height="35"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" title="Share"/>
+                                    <connections>
+                                        <action selector="shareButtonCallback:" destination="a4x-ME-bHC" eventType="touchUpInside" id="ENt-Cz-Ucc"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="nameTextField" destination="0Wa-cs-upB" id="uk5-LH-HmR"/>
                         <outlet property="pencilFingerButton" destination="MPj-hj-0G3" id="d9H-7E-YJt"/>
+                        <outlet property="shareButton" destination="sv2-bh-mC8" id="Xum-y4-Od9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zin-3c-Ctq" sceneMemberID="firstResponder"/>
