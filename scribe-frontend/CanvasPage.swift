@@ -170,21 +170,31 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
         print("evaluate")
         var (selectionDrawing, placementPoint) = getLassoSelection()
         
+        if selectionDrawing.strokes.count == 0{
+            let alert = UIAlertController(title: "No Selection", message: "Please use the lasso tool to select the expression you would like to evaluate", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+
         let selection_ink = selectionDrawing.strokes[0].ink
         let sample_point = selectionDrawing.strokes[0].path[0]
         
         let svg = PKDrawingToSVG(drawing: selectionDrawing)
-        
+
         var startTime = DispatchTime.now()
-        sendPostRequest(with: svg) { result in
+        APIEvaluateToText(with: svg) { result in
             switch result {
-            case .success(let responseSVG):
+            case .success(let responseAnswer):
                 var endTime = DispatchTime.now()
                 var nanoTime = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
                 var timeInterval = Double(nanoTime) / 1_000_000_000 // Convert to seconds
                 print("request time: \(timeInterval) seconds")
-                let strokes = SVGtoStroke(svg:responseSVG, placementPoint: placementPoint, ink: selection_ink, samplePoint: sample_point, target_height: selectionDrawing.bounds.height)
-                self.canvasView.drawing.append(strokes)
+//                let strokes = textTo(svg:responseSVG, placementPoint: placementPoint, ink: selection_ink, samplePoint: sample_point, target_height: selectionDrawing.bounds.height)
+                
+                let answer = textToHandwriting(text: responseAnswer, placementPoint: placementPoint, ink: selection_ink, samplePoint: sample_point, target_height: selectionDrawing.bounds.height)
+                self.canvasView.drawing.append(answer!)
+                
             case .failure(let error):
                 print("Error: \(error)")
             }
@@ -226,7 +236,18 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField){
+        updateFileName(textField)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        updateFileName(textField)
+        return true
+    }
+    
+    //CanvasPage Helpers
+    func updateFileName(_ textField: UITextField){
         print("text field changed")
+        save()
         let basePath = notePath!.deletingLastPathComponent().path
         if basePath != nil {
             if !textField.text!.isEmpty {
@@ -234,19 +255,23 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
                 let updatedURL = URL(fileURLWithPath: basePath).appendingPathComponent(newFileName)
                 print("Updated URL: \(updatedURL)")
                 let newPath = renameFile(at: "Notes/\(notePath!.lastPathComponent)", to: newFileName)
-                notePath = newPath
+                if newPath == nil{
+                    textField.text! = notePath!.deletingPathExtension().lastPathComponent
+                }else{
+                    notePath = newPath
+                }
             }else{
                 textField.text! = notePath!.deletingPathExtension().lastPathComponent
             }
         }
-        
-        print("new notePath",notePath!.path)
+        textField.resignFirstResponder()
+        toolPicker.setVisible(true, forFirstResponder: canvasView)
+        toolPicker.addObserver(canvasView)
+        canvasView.becomeFirstResponder()
     }
-        
-    //CanvasPage Helpers
+    
     func save(){
         if notePath == nil{
-            print("nil note path")
             return
         }
         let data:Data

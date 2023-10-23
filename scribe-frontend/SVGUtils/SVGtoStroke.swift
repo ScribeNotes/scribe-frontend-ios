@@ -251,8 +251,6 @@ func SVGtoStroke(svg: String,
                      altitude: 0),
                  target_height: CGFloat = 100
 )->PKDrawing{
-//    let svgURL = Bundle.main.url(forResource: "14", withExtension: "svg")!
-//    let paths = SVGBezierPath.pathsFromSVG(at: svgURL)
     let paths = SVGBezierPath.paths(fromSVGString: svg)
     var fusedPath = UIBezierPath()
     for path in paths{
@@ -268,5 +266,37 @@ func SVGtoStroke(svg: String,
     fusedPath.apply(CGAffineTransform(translationX: -bezOrigin.x, y: -bezOrigin.y))
     fusedPath.apply(CGAffineTransform(translationX: placementPoint.x, y: placementPoint.y))
     return BezierToStroke(path:fusedPath, ink: ink, samplePoint: samplePoint)
-    
 }
+
+func SVGFiletoStroke(at svgURL: URL,
+                 placementPoint: CGPoint,
+                 ink: PKInk = PKInk(.pen, color: UIColor.black),
+                 samplePoint: PKStrokePoint = PKStrokePoint(
+                     location: CGPoint(x: 0, y: 0),
+                     timeOffset: 0,
+                     size: .init(width: 2, height: 2),
+                     opacity: 1,
+                     force: 0.5,
+                     azimuth: 0,
+                     altitude: 0),
+                 target_height: CGFloat = 100
+)->PKDrawing{
+//    let svgURL = Bundle.main.url(forResource: "14", withExtension: "svg")!
+    let paths = SVGBezierPath.pathsFromSVG(at: svgURL)
+//    let paths = SVGBezierPath.paths(fromSVGString: svg)
+    var fusedPath = UIBezierPath()
+    for path in paths{
+        fusedPath.append(path)
+    }
+    let newHeight = target_height
+    let newWidth = fusedPath.bounds.width/fusedPath.bounds.height * target_height
+    
+    let scaleX  = newWidth / fusedPath.bounds.width
+    let scaleY = newHeight / fusedPath.bounds.height
+    fusedPath.apply(CGAffineTransform(scaleX: scaleX, y: scaleY))
+    let bezOrigin = fusedPath.bounds.origin
+    fusedPath.apply(CGAffineTransform(translationX: -bezOrigin.x, y: -bezOrigin.y))
+    fusedPath.apply(CGAffineTransform(translationX: placementPoint.x, y: placementPoint.y))
+    return BezierToStroke(path:fusedPath, ink: ink, samplePoint: samplePoint)
+}
+

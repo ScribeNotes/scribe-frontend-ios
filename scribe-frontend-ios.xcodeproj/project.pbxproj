@@ -30,6 +30,8 @@
 		6D7FAD372ADBA1B900DFA2F6 /* 14.svg in Resources */ = {isa = PBXBuildFile; fileRef = 6D7FAD362ADBA1B900DFA2F6 /* 14.svg */; };
 		6D7FAD3B2ADCFFD600DFA2F6 /* APIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7FAD3A2ADCFFD600DFA2F6 /* APIUtils.swift */; };
 		6DC5EE572AE4B475005673EB /* FileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC5EE562AE4B475005673EB /* FileUtils.swift */; };
+		6DC5EE592AE5EE1D005673EB /* TextToHandwriting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC5EE582AE5EE1D005673EB /* TextToHandwriting.swift */; };
+		6DC5EE5B2AE60FB6005673EB /* DrawingUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC5EE5A2AE60FB6005673EB /* DrawingUtils.swift */; };
 		6DE97BCD2AC1418D0039925C /* 3.svg in Resources */ = {isa = PBXBuildFile; fileRef = 6DE97BCC2AC1418D0039925C /* 3.svg */; };
 		6DE97BD02AC1463A0039925C /* SwiftDraw in Frameworks */ = {isa = PBXBuildFile; productRef = 6DE97BCF2AC1463A0039925C /* SwiftDraw */; };
 		6DE97BD22AC1516F0039925C /* SVGtoStroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE97BD12AC1516F0039925C /* SVGtoStroke.swift */; };
@@ -79,6 +81,8 @@
 		6D7FAD362ADBA1B900DFA2F6 /* 14.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 14.svg; sourceTree = "<group>"; };
 		6D7FAD3A2ADCFFD600DFA2F6 /* APIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUtils.swift; sourceTree = "<group>"; };
 		6DC5EE562AE4B475005673EB /* FileUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUtils.swift; sourceTree = "<group>"; };
+		6DC5EE582AE5EE1D005673EB /* TextToHandwriting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToHandwriting.swift; sourceTree = "<group>"; };
+		6DC5EE5A2AE60FB6005673EB /* DrawingUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingUtils.swift; sourceTree = "<group>"; };
 		6DE97BCC2AC1418D0039925C /* 3.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 3.svg; sourceTree = "<group>"; };
 		6DE97BD12AC1516F0039925C /* SVGtoStroke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVGtoStroke.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -188,6 +192,8 @@
 				6D4E3B202ACA0C9400D33F96 /* HelpfulOldMethods.swift */,
 				6D7FAD3A2ADCFFD600DFA2F6 /* APIUtils.swift */,
 				6DC5EE562AE4B475005673EB /* FileUtils.swift */,
+				6DC5EE582AE5EE1D005673EB /* TextToHandwriting.swift */,
+				6DC5EE5A2AE60FB6005673EB /* DrawingUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -344,9 +350,11 @@
 				6DC5EE572AE4B475005673EB /* FileUtils.swift in Sources */,
 				6D7FAD352AD9F37100DFA2F6 /* CreateFontPage.swift in Sources */,
 				6D16D1D22AB67D2B0035137C /* SceneDelegate.swift in Sources */,
+				6DC5EE5B2AE60FB6005673EB /* DrawingUtils.swift in Sources */,
 				6D7FAD322AD9265D00DFA2F6 /* CanvasPage.swift in Sources */,
 				6D7FAD3B2ADCFFD600DFA2F6 /* APIUtils.swift in Sources */,
 				6D16D2002AB681E90035137C /* BoundingBoxSelectionViewController.swift in Sources */,
+				6DC5EE592AE5EE1D005673EB /* TextToHandwriting.swift in Sources */,
 				6DE97BD22AC1516F0039925C /* SVGtoStroke.swift in Sources */,
 				6D4E3B212ACA0C9400D33F96 /* HelpfulOldMethods.swift in Sources */,
 			);
