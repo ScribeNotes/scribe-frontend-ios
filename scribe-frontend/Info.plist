@@ -2,43 +2,36 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSFileProviderServiceName</key>
-	<string>Scribe</string>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.178428933202-mf9neoppt1ensn0tffvga8megvof0e4i</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>178428933202-mf9neoppt1ensn0tffvga8megvof0e4i.apps.googleusercontent.com</string>
+	<key>CFBundleIdentifier</key>
+	<string></string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.scribe.scribe</string>
-			</array>
 			<key>CFBundleTypeName</key>
 			<string>Scribe Note</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
-		</dict>
-	</array>
-	<key>UTExportedTypeDeclarations</key>
-	<array>
-		<dict>
-			<key>UTTypeConformsTo</key>
+			<key>LSItemContentTypes</key>
 			<array>
-				<string>public.data</string>
+				<string>com.scribe.scribe</string>
 			</array>
-			<key>UTTypeIdentifier</key>
-			<string>com.scribe.scribe</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>scribe</string>
-				</array>
-			</dict>
 		</dict>
 	</array>
-	<key>CFBundleIdentifier</key>
-	<string></string>
+	<key>Display Name</key>
+	<string>Scribe</string>
+	<key>NSFileProviderServiceName</key>
+	<string>Scribe</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -60,7 +53,25 @@
 	</dict>
 	<key>UIFileSharingEnabled</key>
 	<true/>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>com.scribe.scribe</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>scribe</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>

@@ -50,28 +50,33 @@ class CreateFontPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate
         let svg = PKDrawingToSVG(drawing: selectionDrawing)
         
 //        saveSVG(svgContent: svg, name: fileNameField.text!)
-        saveCustomFontFile(svgContent: svg, charCode: fileNameField.text!)
+        saveCustomFontFile(svgContent: svg, char: fileNameField.text!.first!)
         print("saved")
         
     }
     
-    func saveCustomFontFile(svgContent: String, charCode: String) {
+    func saveCustomFontFile(svgContent: String, char: Character) {
         if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let filePath = documentsDirectory.appendingPathComponent("/myfont_svg/\(charCode)/\(randomString(length: 5)).svg")
-            do {
-                // Ensure the directory structure exists
-                let directory = filePath.deletingLastPathComponent()
-                try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
-                
-                // Write the SVG content to the file
-                if let data = svgContent.data(using: .utf8) {
-                    try data.write(to: filePath, options: .atomic)
-//                    print("SVG content written to file: \(filePath.path)")
-                } else {
-                    print("Failed to convert SVG content to data.")
+            if let asciiValue = char.unicodeScalars.first?.value {
+                print("ASCII value of \(char) is \(asciiValue)")
+                let filePath = documentsDirectory.appendingPathComponent("/myfont_svg/\(asciiValue)/\(randomString(length: 5)).svg")
+                do {
+                    // Ensure the directory structure exists
+                    let directory = filePath.deletingLastPathComponent()
+                    try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+                    
+                    // Write the SVG content to the file
+                    if let data = svgContent.data(using: .utf8) {
+                        try data.write(to: filePath, options: .atomic)
+    //                    print("SVG content written to file: \(filePath.path)")
+                    } else {
+                        print("Failed to convert SVG content to data.")
+                    }
+                } catch {
+                    print("Error writing SVG content to file: \(error)")
                 }
-            } catch {
-                print("Error writing SVG content to file: \(error)")
+            } else {
+                print("Couldn't retrieve ASCII value for the character.")
             }
         } else {
             print("Unable to access the documents directory.")

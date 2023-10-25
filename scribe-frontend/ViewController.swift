@@ -4,21 +4,41 @@
 //
 //  Created by Ty Todd on 9/16/23.
 //
-import PencilKit
 import UIKit
-import SwiftDraw
-import PocketSVG
+import GoogleSignIn
 
-//extension PKStroke: Equatable {
-//    public static func ==(lhs: PKStroke, rhs: PKStroke) -> Bool {
-//        return (lhs as PKStrokeReference) === (rhs as PKStrokeReference)
-//    }
-//}
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
+}
 
 class ViewController: UIViewController , UIDocumentPickerDelegate{
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var userNameLabel: UILabel!
     
     
     override func viewDidLoad(){
+        if let user = GIDSignIn.sharedInstance.currentUser{
+            print("non nil user")
+            userNameLabel.text = user.profile?.name
+            let imageURL = user.profile?.imageURL(withDimension: 100)
+            if imageURL != nil{
+                profileImage.load(url: imageURL!)
+            }
+            
+            
+        }else{
+            print("nil user")
+        }
 
     }
     
@@ -50,6 +70,17 @@ class ViewController: UIViewController , UIDocumentPickerDelegate{
         openFileExplorer()
     }
     
+    @IBAction func signOutButtonPressed(_ sender: Any){
+        GIDSignIn.sharedInstance.signOut()
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        var signInPage = storyboard.instantiateViewController(withIdentifier: "SignInPage") as? SignInPage
+        signInPage?.navigationItem.hidesBackButton = true
+        
+        self.navigationController?.pushViewController(signInPage!, animated: true)
+        
+    }
+    
     //Helpers
     func openFileExplorer() {
         if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
@@ -61,7 +92,6 @@ class ViewController: UIViewController , UIDocumentPickerDelegate{
             present(documentPicker, animated: true, completion: nil)
         }
     }
-    
     
 }
 

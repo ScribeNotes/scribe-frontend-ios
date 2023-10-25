@@ -7,11 +7,12 @@
 
 import Foundation
 
+let ipAdress = "10.29.178.18"
+
 //Extrac
 func APIEvaluateToSVG(with svg: String, completion: @escaping (Result<String, Error>) -> Void) {
     // Define the URL for the FastAPI route
     var urlString = "http://0.0.0.0:8000/evaluate/"
-    let ipAdress = "10.29.178.18" //change to your computers IP adress
     urlString = "http://\(ipAdress):8000/evaluate/"
     if let url = URL(string: urlString) {
         var request = URLRequest(url: url)
@@ -62,8 +63,9 @@ func APIEvaluateToSVG(with svg: String, completion: @escaping (Result<String, Er
 func APIEvaluateToText(with svg: String, completion: @escaping (Result<String, Error>) -> Void) {
     // Define the URL for the FastAPI route
     var urlString = "http://0.0.0.0:8000/evaluate/"
-    let ipAdress = "10.29.178.18" //change to your computers IP adress
+//    let ipAdresss = "10.29.178.18"
     urlString = "http://\(ipAdress):8000/evaluate/"
+    print(urlString)
     if let url = URL(string: urlString) {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -107,6 +109,90 @@ func APIEvaluateToText(with svg: String, completion: @escaping (Result<String, E
         // Start the data task
         task.resume()
     }
+}
+
+
+//func checkIfAuthorizedEmail(email: String, completion: @escaping (Bool?) -> Void) {
+//
+//    let urlString = "http://\(ipAdress):8000/check_email/\(email)"
+//    let url = URL(string: urlString)
+//
+//    let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+//        if let error = error {
+//            print("Error checking emnail: \(error)")
+//            completion(nil)
+//            return
+//        }
+//
+//        guard let data = data, let httpResponse = response as? HTTPURLResponse else {
+//            completion(nil)
+//            return
+//        }
+//
+//        if httpResponse.statusCode == 200 {
+//            do {
+//                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Bool],
+//                   let result = json["result"] {
+//                    completion(result)
+//                } else {
+//                    completion(nil)
+//                }
+//            } catch {
+//                completion(nil)
+//            }
+//        } else {
+//            completion(nil)
+//        }
+//    }
+//
+//    task.resume()
+//}
+
+func checkIfAuthorizedEmail(email: String, completion: @escaping (Bool?) -> Void) {
+        let urlString = "http://\(ipAdress):8000/check_email/\(email)"
+        let url = URL(string: urlString)
+
+    let task = URLSession.shared.dataTask(with: url!) { data, response, error in
+        if let error = error {
+            print("Error: \(error)")
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+            return
+        }
+
+        guard let data = data, let httpResponse = response as? HTTPURLResponse else {
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+            return
+        }
+
+        if httpResponse.statusCode == 200 {
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Bool],
+                   let result = json["result"] {
+                    DispatchQueue.main.async {
+                        completion(result)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
+        } else {
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+        }
+    }
+
+    task.resume()
 }
 
                                

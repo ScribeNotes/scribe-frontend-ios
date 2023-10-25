@@ -153,9 +153,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        toolPicker.setVisible(true, forFirstResponder: canvasView)
-        toolPicker.addObserver(canvasView)
-        canvasView.becomeFirstResponder()
+        reshowToolBar()
     }
     
     override var prefersHomeIndicatorAutoHidden: Bool{
@@ -215,14 +213,20 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
                 print("request time: \(timeInterval) seconds")
                 //keep for working with svgs
 //                let strokes = textTo(svg:responseSVG, placementPoint: placementPoint, ink:                                    selection_ink, samplePoint: sample_point, target_height:                                    selectionDrawing.bounds.height)
-                
                 let answer = textToHandwriting(text: responseAnswer, placementPoint: placementPoint, ink: selection_ink, samplePoint: sample_point, target_height: selectionDrawing.bounds.height)
+                if answer == nil{
+                    print("nil answer")
+                }else{
+                    print("answer", answer)
+                }
                 self.canvasView.drawing.append(answer!)
                 
             case .failure(let error):
-                print("Error: \(error)")
+                print("Error evaluating: \(error)")
             }
         }
+        
+        reshowToolBar()
         
     }
     
@@ -454,6 +458,13 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         UIGraphicsEndPDFContext()
 
         print("PDF saved at: \(pdfURL.path)")
+    }
+    
+    func reshowToolBar(){
+        toolPicker.setVisible(true, forFirstResponder: canvasView)
+        toolPicker.addObserver(canvasView)
+        canvasView.becomeFirstResponder()
+        
     }
     
     }
