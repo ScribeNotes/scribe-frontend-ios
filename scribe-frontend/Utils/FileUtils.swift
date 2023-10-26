@@ -18,7 +18,7 @@ func saveFile(path: String, data: Data) {
             
             // Write the SVG content to the file
             try data.write(to: filePath, options: .atomic)
-            print("New file saved at: \(filePath.path)")
+//            print("New file saved at: \(filePath.path)")
         } catch {
             print("Error writing data content to file: \(error)")
         }
@@ -123,4 +123,20 @@ func createFolderIfDoesntExist(_ name:String) {
             print("'exports' folder already exists at \(folderURL.path)")
         }
     }
+}
+
+func folderExists(atPath path: String) -> Bool {
+    let fileManager = FileManager.default
+    var isDirectory: ObjCBool = false
+    
+    if let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+        let folderURL = documentsDirectory.appendingPathComponent(path)
+        
+        if fileManager.fileExists(atPath: folderURL.path, isDirectory: &isDirectory) {
+            return isDirectory.boolValue
+        } else {
+            return false
+        }
+    }
+    return false
 }

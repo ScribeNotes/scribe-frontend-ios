@@ -68,6 +68,13 @@ func textToHandwriting(text:String,
             currY = placementPoint.y + target_height - new_height/2
             currHeight = new_height
         }
+        
+        if char == "-"{
+            let new_height = target_height/50
+            currY = placementPoint.y + target_height/2
+            currHeight = new_height
+        }
+        
         if let writtenChar = getCharDrawing(character: char, placementPoint: CGPoint(x: currX, y: currY), ink:ink, samplePoint: samplePoint, target_height: currHeight) {
             result.append(writtenChar)
             currX = writtenChar.bounds.maxX + 10

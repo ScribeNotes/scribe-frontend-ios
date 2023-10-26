@@ -47,7 +47,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
     
     private let canvasView: PKCanvasView = {
         let canvas = PKCanvasView()
-        canvas.drawingPolicy = .anyInput
+        canvas.drawingPolicy = .pencilOnly
         return canvas
     }()
     let pageView = UIView()
@@ -67,11 +67,10 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
     
     //Utilities
     let toolPicker = PKToolPicker()
-    @IBOutlet weak var pencilFingerButton: UIButton!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var shareButton:UIButton!
     var documentController: UIDocumentInteractionController!
-    
+
     //File Variables
     var notePath: URL?
     
@@ -86,7 +85,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         canvasView.alwaysBounceVertical = true
         canvasView.alwaysBounceHorizontal = false
         canvasView.bouncesZoom = true
-        canvasView.drawingPolicy = PKCanvasViewDrawingPolicy.anyInput
+        canvasView.drawingPolicy = PKCanvasViewDrawingPolicy.pencilOnly
         
         //FIXME hacky way of avoiding errors when there is no drawing on the canvasView
         let dotPoint = PKStrokePoint(location: CGPoint(x: 0, y: 0), timeOffset: 0.0, size: CGSize(width: 1, height: 1), opacity: 1.0, force: 1.0, azimuth: 0, altitude: 0)
@@ -102,7 +101,6 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         print("canvasOverscrollHeight", canvasOverscrollHeight)
         
         // UI Setup
-        pencilFingerButton?.setTitle("Pencil", for: UIControl.State.normal)
         nameTextField.delegate = self
         navigationController?.navigationBar.backgroundColor = UIColor.white
         
@@ -165,6 +163,16 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
     
     
     // Button Callbacks
+    @IBAction func switchValueChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            canvasView.drawingPolicy = PKCanvasViewDrawingPolicy.anyInput
+            
+        } else {
+            canvasView.drawingPolicy = PKCanvasViewDrawingPolicy.pencilOnly
+        }
+    }
+        
+        
     @IBAction func shareButtonCallback(_ sender: Any) {
         print("share")
         if let window = UIApplication.shared.keyWindow {
@@ -190,7 +198,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
     @IBAction func evaluate(_ sender: Any) {
         print("evaluate")
         var (selectionDrawing, placementPoint) = getLassoSelection()
-        
+        print("placeMent point", placementPoint)
         if selectionDrawing.strokes.count == 0{
             let alert = UIAlertController(title: "No Selection", message: "Please use the lasso tool to select the expression you would like to evaluate", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
@@ -227,17 +235,6 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         }
         
         reshowToolBar()
-        
-    }
-    
-    @IBAction func toggleFingerOrPencil(_ sender: Any){
-        if(canvasView.drawingPolicy == PKCanvasViewDrawingPolicy.anyInput){
-            canvasView.drawingPolicy = PKCanvasViewDrawingPolicy.pencilOnly
-            pencilFingerButton.setTitle("Finger", for: UIControl.State.normal)
-        }else{
-            canvasView.drawingPolicy = PKCanvasViewDrawingPolicy.anyInput
-            pencilFingerButton.setTitle("Pencil", for: UIControl.State.normal)
-        }
         
     }
     
@@ -314,7 +311,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
             //FIXME tell user there has been an error
             return
         }
-        print("name", notePath!.lastPathComponent)
+//        print("name", notePath!.lastPathComponent)
         saveFile(path: "Notes/\(notePath!.lastPathComponent)", data: data)
         
     }
@@ -403,32 +400,10 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
             }
         }
         
-        var minX = view.bounds.width
-        var minY = view.bounds.height
-        var maxX = 0.0
-        var maxY = 0.0
-        
-        for selectedStroke in selectedStrokes{
-            let bounds = selectedStroke.renderBounds
-            if bounds.origin.x < minX {
-                minX = bounds.origin.x
-            }
-            if bounds.origin.x + bounds.width > maxX {
-                maxX = bounds.origin.x + bounds.width
-            }
-            if bounds.origin.y < minY {
-                minY = bounds.origin.y
-            }
-            if bounds.origin.y + bounds.height > maxY {
-                maxY = bounds.origin.y + bounds.height
-            }
-        }
-        
-        let selectionBounds = CGRect(x: minX, y: minY, width:maxX - minX, height: maxY - minY) //idk about this
         let drawing = PKDrawing(strokes: selectedStrokes)
-        
-        let y_offset = minY
-        let placmentPoint = CGPoint(x : maxX, y: y_offset)
+        let selectionBounds = drawing.bounds
+        let y_offset = selectionBounds.minY //minY
+        let placmentPoint = CGPoint(x : selectionBounds.maxX, y: y_offset)
         
         return (drawing, placmentPoint)
     }

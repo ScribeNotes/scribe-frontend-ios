@@ -11,7 +11,7 @@ import SwiftDraw
 import PocketSVG
 
 
-class CreateFontPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
+class EditFontPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate {
     
 //    let drawing = BezierToStroke(path: UIBezierPath(arcCenter: CGPoint(x:500,y:500), radius: CGFloat(20), startAngle: CGFloat(0), endAngle: CGFloat(Double.pi * 2), clockwise: true))
     private let canvasView: PKCanvasView = {

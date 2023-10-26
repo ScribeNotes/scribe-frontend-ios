@@ -22,8 +22,11 @@ extension UIImageView {
 }
 
 class ViewController: UIViewController , UIDocumentPickerDelegate{
+    //Utilities
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
+    
+    
     
     
     override func viewDidLoad(){
@@ -34,21 +37,22 @@ class ViewController: UIViewController , UIDocumentPickerDelegate{
             if imageURL != nil{
                 profileImage.load(url: imageURL!)
             }
-            
-            
         }else{
             print("nil user")
         }
-
+        
+        openFontModalIfNoFont()
+        
+        
     }
     
     override func viewDidLayoutSubviews(){
-
+        
     }
     
     //Delegate Callbacks
     override func viewDidAppear(_ animated: Bool) {
-
+        
     }
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
@@ -65,7 +69,7 @@ class ViewController: UIViewController , UIDocumentPickerDelegate{
         self.navigationController?.pushViewController(canvasPage!, animated: true)
     }
     
-    //Button Callbacks
+    
     @IBAction func openNoteButtonPressed(_ sender: Any){
         openFileExplorer()
     }
@@ -93,5 +97,14 @@ class ViewController: UIViewController , UIDocumentPickerDelegate{
         }
     }
     
+    func openFontModalIfNoFont(){
+        print("open if no font")
+        if !folderExists(atPath: "myfont_svg"){
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let createFont = storyboard.instantiateViewController(withIdentifier: "CreateFont")
+            createFont.modalPresentationStyle = .overCurrentContext
+            present(createFont, animated:true)
+        }
+    }
 }
 
