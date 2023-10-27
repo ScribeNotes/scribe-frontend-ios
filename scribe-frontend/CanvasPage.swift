@@ -199,6 +199,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         print("evaluate")
         var (selectionDrawing, placementPoint) = getLassoSelection()
         print("placeMent point", placementPoint)
+        print("selection Drawing", selectionDrawing)
         if selectionDrawing.strokes.count == 0{
             let alert = UIAlertController(title: "No Selection", message: "Please use the lasso tool to select the expression you would like to evaluate", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
@@ -210,6 +211,9 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         let sample_point = selectionDrawing.strokes[0].path[0]
         
         let svg = PKDrawingToSVG(drawing: selectionDrawing)
+        
+//        sendTestRequest()
+//        return
 
         var startTime = DispatchTime.now()
         APIEvaluateToText(with: svg) { result in
