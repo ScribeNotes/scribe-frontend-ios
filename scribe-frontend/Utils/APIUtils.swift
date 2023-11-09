@@ -7,15 +7,24 @@
 
 import Foundation
 
-let ipAdress = "10.29.178.18"
+//change these at your discretion
+let ipAdress = "10.29.221.90" //Ip adress of computer running api
+let local = true //whether you want to use a local api host or the cloud
+
 let accessToken = "secrettoken"
+let hostName = "https://scribe-backend-kb7z6w7ssq-ue.a.run.app"
 
 
 //Extrac
 func APIEvaluateToSVG(with svg: String, completion: @escaping (Result<String, Error>) -> Void) {
     // Define the URL for the FastAPI route
-    var urlString = "http://0.0.0.0:8000/evaluate/"
-    urlString = "http://\(ipAdress):8000/evaluate/"
+    var urlString = ""
+    if local {
+        urlString = "http://\(ipAdress):8000/evaluate/"
+    }else{
+        urlString = "\(hostName)/evaluate/"
+    }
+    
     if let url = URL(string: urlString) {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -65,10 +74,13 @@ func APIEvaluateToSVG(with svg: String, completion: @escaping (Result<String, Er
 
 func APIEvaluateToText(with svg: String, completion: @escaping (Result<String, Error>) -> Void) {
     // Define the URL for the FastAPI route
-    var urlString = "http://0.0.0.0:8000/evaluate/"
-//    let ipAdresss = "10.29.178.18"
-    urlString = "http://\(ipAdress):8000/evaluate/"
-    print(urlString)
+    var urlString = ""
+    if local {
+        urlString = "http://\(ipAdress):8000/evaluate/"
+    }else{
+        urlString = "\(hostName)/evaluate/"
+    }
+    
     if let url = URL(string: urlString) {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -118,8 +130,14 @@ func APIEvaluateToText(with svg: String, completion: @escaping (Result<String, E
 }
 
 func checkIfAuthorizedEmail(email: String, completion: @escaping (Bool?) -> Void) {
-        let urlString = "http://\(ipAdress):8000/check_email/\(email)"
-        let url = URL(string: urlString)
+    var urlString = ""
+    if local {
+        urlString = "http://\(ipAdress):8000/check_email/\(email)"
+    }else{
+        urlString = "\(hostName)/check_email/\(email)"
+    }
+    
+    let url = URL(string: urlString)
 
     let task = URLSession.shared.dataTask(with: url!) { data, response, error in
         if let error = error {

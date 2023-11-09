@@ -217,24 +217,28 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
 
         var startTime = DispatchTime.now()
         APIEvaluateToText(with: svg) { result in
-            switch result {
-            case .success(let responseAnswer):
-                var endTime = DispatchTime.now()
-                var nanoTime = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
-                var timeInterval = Double(nanoTime) / 1_000_000_000 // Convert to seconds
-                print("request time: \(timeInterval) seconds")
-                //keep for working with svgs
-//                let strokes = textTo(svg:responseSVG, placementPoint: placementPoint, ink:                                    selection_ink, samplePoint: sample_point, target_height:                                    selectionDrawing.bounds.height)
-                let answer = textToHandwriting(text: responseAnswer, placementPoint: placementPoint, ink: selection_ink, samplePoint: sample_point, target_height: selectionDrawing.bounds.height)
-                if answer == nil{
-                    print("nil answer")
-                }else{
-                    print("answer", answer)
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let responseAnswer):
+                    var endTime = DispatchTime.now()
+                    var nanoTime = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
+                    var timeInterval = Double(nanoTime) / 1_000_000_000 // Convert to seconds
+                    print("request time: \(timeInterval) seconds")
+                    //keep for working with svgs
+                    //                let strokes = textTo(svg:responseSVG, placementPoint: placementPoint, ink:                                    selection_ink, samplePoint: sample_point, target_height:                                    selectionDrawing.bounds.height)
+                    let answer = textToHandwriting(text: responseAnswer, placementPoint: placementPoint, ink: selection_ink, samplePoint: sample_point, target_height: selectionDrawing.bounds.height)
+                    if answer == nil{
+                        print("nil answer")
+                        self.addAlert(title: "Incomplete Font", message: "It looks like you are missing some characters in your font. Please go to the Add to Font page to add more characters")
+                        
+                    }else{
+                        print("drawing answer")
+                        self.canvasView.drawing.append(answer!)
+                    }
+                    
+                case .failure(let error):
+                    print("Error evaluating: \(error)")
                 }
-                self.canvasView.drawing.append(answer!)
-                
-            case .failure(let error):
-                print("Error evaluating: \(error)")
             }
         }
         
@@ -443,6 +447,13 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         toolPicker.setVisible(true, forFirstResponder: canvasView)
         toolPicker.addObserver(canvasView)
         canvasView.becomeFirstResponder()
+        
+    }
+    
+    func addAlert(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
         
     }
     

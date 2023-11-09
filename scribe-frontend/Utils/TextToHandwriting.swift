@@ -79,6 +79,9 @@ func textToHandwriting(text:String,
             result.append(writtenChar)
             currX = writtenChar.bounds.maxX + 10
         }
+        else{
+            return nil
+        }
         
     }
     return result
