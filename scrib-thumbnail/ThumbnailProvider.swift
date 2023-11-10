@@ -1,8 +1,8 @@
 //
 //  ThumbnailProvider.swift
-//  ScribeFileThumbnail
+//  scrib-thumbnail
 //
-//  Created by Ty Todd on 11/9/23.
+//  Created by Ty Todd on 11/10/23.
 //
 
 import UIKit
