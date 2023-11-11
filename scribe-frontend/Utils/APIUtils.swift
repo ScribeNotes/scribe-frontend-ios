@@ -9,7 +9,7 @@ import Foundation
 
 //change these at your discretion
 let ipAdress = "10.29.221.90" //Ip adress of computer running api
-let local = true //whether you want to use a local api host or the cloud
+let local = false //whether you want to use a local api host or the cloud
 
 let accessToken = "secrettoken"
 let hostName = "https://scribe-backend-kb7z6w7ssq-ue.a.run.app"
