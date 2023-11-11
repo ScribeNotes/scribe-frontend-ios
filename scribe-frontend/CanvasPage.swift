@@ -9,6 +9,7 @@ import PencilKit
 import UIKit
 import SwiftDraw
 import PocketSVG
+import QuickLook
 
 extension UIColor {
     convenience init(hex: String, alpha: CGFloat = 1.0) {
@@ -106,7 +107,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         
         //View Setup
         view.addSubview(canvasView)
-        view.backgroundColor = UIColor(hex: "#dccfbc")
+        view.backgroundColor = UIColor(hex: "#ece5de")
         canvasView.backgroundColor = .clear
         canvasView.isOpaque = true
         
@@ -126,6 +127,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         }
         print("notePath", notePath)
         adjustNumPages()
+        
         
     }
     
@@ -219,14 +221,16 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         APIEvaluateToText(with: svg) { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let responseAnswer):
+                case .success((let responseAnswer, let scale)):
                     var endTime = DispatchTime.now()
                     var nanoTime = endTime.uptimeNanoseconds - startTime.uptimeNanoseconds
                     var timeInterval = Double(nanoTime) / 1_000_000_000 // Convert to seconds
                     print("request time: \(timeInterval) seconds")
+                    
+                    let selection_height = selectionDrawing.bounds.height
                     //keep for working with svgs
-                    //                let strokes = textTo(svg:responseSVG, placementPoint: placementPoint, ink:                                    selection_ink, samplePoint: sample_point, target_height:                                    selectionDrawing.bounds.height)
-                    let answer = textToHandwriting(text: responseAnswer, placementPoint: placementPoint, ink: selection_ink, samplePoint: sample_point, target_height: selectionDrawing.bounds.height)
+                    //                let strokes = textTo(svg:responseSVG, placementPoint: placementPoint, ink:                                    selection_ink, samplePoint: sample_point, target_height:                                    target_height)
+                    let answer = textToHandwriting(text: responseAnswer, placementPoint: placementPoint, ink: selection_ink, samplePoint: sample_point, selection_height: selection_height, scale: CGFloat(scale))
                     if answer == nil{
                         print("nil answer")
                         self.addAlert(title: "Incomplete Font", message: "It looks like you are missing some characters in your font. Please go to the Add to Font page to add more characters")
@@ -237,6 +241,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
                     }
                     
                 case .failure(let error):
+                    self.addAlert(title: "Unable to evaluate", message: "Sorry, your expression was unable to be evaluated. Please make sure it's a valid math expression and all character are legible.")
                     print("Error evaluating: \(error)")
                 }
             }
@@ -288,7 +293,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         let basePath = notePath!.deletingLastPathComponent().path
         if basePath != nil {
             if !textField.text!.isEmpty {
-                var newFileName = "\(textField.text!).scribe"
+                var newFileName = "\(textField.text!).scrib"
                 let updatedURL = URL(fileURLWithPath: basePath).appendingPathComponent(newFileName)
                 print("Updated URL: \(updatedURL)")
                 let newPath = renameFile(at: "Notes/\(notePath!.lastPathComponent)", to: newFileName)
@@ -349,7 +354,7 @@ class CanvasPage: UIViewController, PKCanvasViewDelegate,UITextFieldDelegate, UI
         }
         
         pageBreakLayer.path = pageBreakPath.cgPath
-        pageBreakLayer.strokeColor = UIColor(hex: "#dccfbc").cgColor
+        pageBreakLayer.strokeColor = UIColor(hex: "#ece5de").cgColor
         pageBreakLayer.lineWidth = 3.0
         
         let pageRect = UIBezierPath(rect: CGRect(x: 0, y: 0, width: pageWidth * canvasView.zoomScale, height: canvasOverscrollHeight * canvasView.zoomScale))

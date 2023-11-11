@@ -90,7 +90,7 @@ class ViewController: UIViewController , UIDocumentPickerDelegate{
         if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             let openPath = documentsDirectory.appendingPathComponent("Notes")
             
-            let documentPicker = UIDocumentPickerViewController(documentTypes: ["com.scribe.scribe"], in: .import)
+            let documentPicker = UIDocumentPickerViewController(documentTypes: ["com.scribe.scrib"], in: .import)
             documentPicker.delegate = self
             documentPicker.directoryURL = openPath
             present(documentPicker, animated: true, completion: nil)

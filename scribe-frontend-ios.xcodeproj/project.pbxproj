@@ -19,6 +19,9 @@
 		6D16D1F32AB67D2D0035137C /* ScibeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D16D1F22AB67D2D0035137C /* ScibeUITestsLaunchTests.swift */; };
 		6D16D2002AB681E90035137C /* BoundingBoxSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D16D1FF2AB681E90035137C /* BoundingBoxSelectionViewController.swift */; };
 		6D245E812AD90B6A0076CF6A /* 36.svg in Resources */ = {isa = PBXBuildFile; fileRef = 6D245E802AD90B690076CF6A /* 36.svg */; };
+		6D3950672AFE05790050B2F2 /* QuickLookThumbnailing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D7CE4E42AFDE77600E4CFDE /* QuickLookThumbnailing.framework */; };
+		6D39506A2AFE05790050B2F2 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3950692AFE05790050B2F2 /* ThumbnailProvider.swift */; };
+		6D39506E2AFE057A0050B2F2 /* scrib-thumbnail.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6D3950662AFE05790050B2F2 /* scrib-thumbnail.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6D4E3B1F2AC9D5E700D33F96 /* PocketSVG in Frameworks */ = {isa = PBXBuildFile; productRef = 6D4E3B1E2AC9D5E700D33F96 /* PocketSVG */; };
 		6D4E3B212ACA0C9400D33F96 /* HelpfulOldMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E3B202ACA0C9400D33F96 /* HelpfulOldMethods.swift */; };
 		6D4E3B232ACA23C100D33F96 /* 321.svg in Resources */ = {isa = PBXBuildFile; fileRef = 6D4E3B222ACA23C100D33F96 /* 321.svg */; };
@@ -31,6 +34,9 @@
 		6D7FAD352AD9F37100DFA2F6 /* EditFontPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7FAD342AD9F37100DFA2F6 /* EditFontPage.swift */; };
 		6D7FAD372ADBA1B900DFA2F6 /* 14.svg in Resources */ = {isa = PBXBuildFile; fileRef = 6D7FAD362ADBA1B900DFA2F6 /* 14.svg */; };
 		6D7FAD3B2ADCFFD600DFA2F6 /* APIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7FAD3A2ADCFFD600DFA2F6 /* APIUtils.swift */; };
+		6DB0D0C12AFCBFF90021B2A6 /* Scribe Logo v2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB0D0C02AFCBFF90021B2A6 /* Scribe Logo v2.png */; };
+		6DB0D0C72AFCC3440021B2A6 /* Scribe_Launch_Screen_vector.svg in Resources */ = {isa = PBXBuildFile; fileRef = 6DB0D0C62AFCC3440021B2A6 /* Scribe_Launch_Screen_vector.svg */; };
+		6DB0D0C92AFCC3AC0021B2A6 /* Scribe_Launch_Screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DB0D0C82AFCC3AC0021B2A6 /* Scribe_Launch_Screen.png */; };
 		6DC5EE572AE4B475005673EB /* FileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC5EE562AE4B475005673EB /* FileUtils.swift */; };
 		6DC5EE592AE5EE1D005673EB /* TextToHandwriting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC5EE582AE5EE1D005673EB /* TextToHandwriting.swift */; };
 		6DC5EE5B2AE60FB6005673EB /* DrawingUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC5EE5A2AE60FB6005673EB /* DrawingUtils.swift */; };
@@ -55,7 +61,28 @@
 			remoteGlobalIDString = 6D16D1CB2AB67D2B0035137C;
 			remoteInfo = Sciber;
 		};
+		6D39506C2AFE057A0050B2F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6D16D1C42AB67D2B0035137C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6D3950652AFE05790050B2F2;
+			remoteInfo = "scrib-thumbnail";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6D7CE4ED2AFDE77700E4CFDE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6D39506E2AFE057A0050B2F2 /* scrib-thumbnail.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6D1328CF2ADF5C48005BEB8E /* 12.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 12.svg; sourceTree = "<group>"; };
@@ -66,7 +93,7 @@
 		6D16D1D62AB67D2B0035137C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6D16D1D82AB67D2D0035137C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6D16D1DB2AB67D2D0035137C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		6D16D1DD2AB67D2D0035137C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6D16D1DD2AB67D2D0035137C /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D16D1E22AB67D2D0035137C /* scribe-frontend-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "scribe-frontend-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D16D1E62AB67D2D0035137C /* SciberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SciberTests.swift; sourceTree = "<group>"; };
 		6D16D1EC2AB67D2D0035137C /* scribe-frontend-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "scribe-frontend-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,16 +101,23 @@
 		6D16D1F22AB67D2D0035137C /* ScibeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScibeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		6D16D1FF2AB681E90035137C /* BoundingBoxSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundingBoxSelectionViewController.swift; sourceTree = "<group>"; };
 		6D245E802AD90B690076CF6A /* 36.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 36.svg; sourceTree = "<group>"; };
+		6D3950662AFE05790050B2F2 /* scrib-thumbnail.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "scrib-thumbnail.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D3950692AFE05790050B2F2 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
+		6D39506B2AFE05790050B2F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D4E3B202ACA0C9400D33F96 /* HelpfulOldMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpfulOldMethods.swift; sourceTree = "<group>"; };
 		6D4E3B222ACA23C100D33F96 /* 321.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 321.svg; sourceTree = "<group>"; };
 		6D4E3B262ACA24DA00D33F96 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
 		6D4E3B282ACA252200D33F96 /* test.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test.svg; sourceTree = "<group>"; };
 		6D5895432AE7ADB70003CF23 /* SignInPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPage.swift; sourceTree = "<group>"; };
+		6D7CE4E42AFDE77600E4CFDE /* QuickLookThumbnailing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLookThumbnailing.framework; path = System/Library/Frameworks/QuickLookThumbnailing.framework; sourceTree = SDKROOT; };
 		6D7FAD2F2AD9109600DFA2F6 /* DrawingtoSVG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingtoSVG.swift; sourceTree = "<group>"; };
 		6D7FAD312AD9265D00DFA2F6 /* CanvasPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasPage.swift; sourceTree = "<group>"; };
 		6D7FAD342AD9F37100DFA2F6 /* EditFontPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFontPage.swift; sourceTree = "<group>"; };
 		6D7FAD362ADBA1B900DFA2F6 /* 14.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 14.svg; sourceTree = "<group>"; };
 		6D7FAD3A2ADCFFD600DFA2F6 /* APIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUtils.swift; sourceTree = "<group>"; };
+		6DB0D0C02AFCBFF90021B2A6 /* Scribe Logo v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Scribe Logo v2.png"; sourceTree = "<group>"; };
+		6DB0D0C62AFCC3440021B2A6 /* Scribe_Launch_Screen_vector.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scribe_Launch_Screen_vector.svg; sourceTree = "<group>"; };
+		6DB0D0C82AFCC3AC0021B2A6 /* Scribe_Launch_Screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scribe_Launch_Screen.png; sourceTree = "<group>"; };
 		6DC5EE562AE4B475005673EB /* FileUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUtils.swift; sourceTree = "<group>"; };
 		6DC5EE582AE5EE1D005673EB /* TextToHandwriting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToHandwriting.swift; sourceTree = "<group>"; };
 		6DC5EE5A2AE60FB6005673EB /* DrawingUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingUtils.swift; sourceTree = "<group>"; };
@@ -117,6 +151,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6D3950632AFE05790050B2F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D3950672AFE05790050B2F2 /* QuickLookThumbnailing.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -126,6 +168,8 @@
 				6D16D1CE2AB67D2B0035137C /* scribe-frontend */,
 				6D16D1E52AB67D2D0035137C /* scribe-test */,
 				6D16D1EF2AB67D2D0035137C /* scribe-ui-tests */,
+				6D3950682AFE05790050B2F2 /* scrib-thumbnail */,
+				6D7CE4E32AFDE77600E4CFDE /* Frameworks */,
 				6D16D1CD2AB67D2B0035137C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -136,6 +180,7 @@
 				6D16D1CC2AB67D2B0035137C /* scribe-frontend-ios.app */,
 				6D16D1E22AB67D2D0035137C /* scribe-frontend-iosTests.xctest */,
 				6D16D1EC2AB67D2D0035137C /* scribe-frontend-iosUITests.xctest */,
+				6D3950662AFE05790050B2F2 /* scrib-thumbnail.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -146,6 +191,9 @@
 				6D4E3B282ACA252200D33F96 /* test.svg */,
 				6D7FAD362ADBA1B900DFA2F6 /* 14.svg */,
 				6D4E3B262ACA24DA00D33F96 /* test.png */,
+				6DB0D0C82AFCC3AC0021B2A6 /* Scribe_Launch_Screen.png */,
+				6DB0D0C62AFCC3440021B2A6 /* Scribe_Launch_Screen_vector.svg */,
+				6DB0D0C02AFCBFF90021B2A6 /* Scribe Logo v2.png */,
 				6D1328CF2ADF5C48005BEB8E /* 12.svg */,
 				6D245E802AD90B690076CF6A /* 36.svg */,
 				6D4E3B222ACA23C100D33F96 /* 321.svg */,
@@ -185,6 +233,23 @@
 			path = "scribe-ui-tests";
 			sourceTree = "<group>";
 		};
+		6D3950682AFE05790050B2F2 /* scrib-thumbnail */ = {
+			isa = PBXGroup;
+			children = (
+				6D3950692AFE05790050B2F2 /* ThumbnailProvider.swift */,
+				6D39506B2AFE05790050B2F2 /* Info.plist */,
+			);
+			path = "scrib-thumbnail";
+			sourceTree = "<group>";
+		};
+		6D7CE4E32AFDE77600E4CFDE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6D7CE4E42AFDE77600E4CFDE /* QuickLookThumbnailing.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6D7FAD382ADCF9B400DFA2F6 /* SVGUtils */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,10 +281,12 @@
 				6D16D1C82AB67D2B0035137C /* Sources */,
 				6D16D1C92AB67D2B0035137C /* Frameworks */,
 				6D16D1CA2AB67D2B0035137C /* Resources */,
+				6D7CE4ED2AFDE77700E4CFDE /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6D39506D2AFE057A0050B2F2 /* PBXTargetDependency */,
 			);
 			name = "scribe-frontend-ios";
 			packageProductDependencies = (
@@ -267,6 +334,23 @@
 			productReference = 6D16D1EC2AB67D2D0035137C /* scribe-frontend-iosUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		6D3950652AFE05790050B2F2 /* scrib-thumbnail */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6D39506F2AFE057A0050B2F2 /* Build configuration list for PBXNativeTarget "scrib-thumbnail" */;
+			buildPhases = (
+				6D3950622AFE05790050B2F2 /* Sources */,
+				6D3950632AFE05790050B2F2 /* Frameworks */,
+				6D3950642AFE05790050B2F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "scrib-thumbnail";
+			productName = "scrib-thumbnail";
+			productReference = 6D3950662AFE05790050B2F2 /* scrib-thumbnail.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -274,8 +358,8 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					6D16D1CB2AB67D2B0035137C = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -287,6 +371,9 @@
 					6D16D1EB2AB67D2D0035137C = {
 						CreatedOnToolsVersion = 14.3.1;
 						TestTargetID = 6D16D1CB2AB67D2B0035137C;
+					};
+					6D3950652AFE05790050B2F2 = {
+						CreatedOnToolsVersion = 15.0.1;
 					};
 				};
 			};
@@ -311,6 +398,7 @@
 				6D16D1CB2AB67D2B0035137C /* scribe-frontend-ios */,
 				6D16D1E12AB67D2D0035137C /* scribe-frontend-iosTests */,
 				6D16D1EB2AB67D2D0035137C /* scribe-frontend-iosUITests */,
+				6D3950652AFE05790050B2F2 /* scrib-thumbnail */,
 			);
 		};
 /* End PBXProject section */
@@ -320,6 +408,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DB0D0C12AFCBFF90021B2A6 /* Scribe Logo v2.png in Resources */,
 				6D4E3B232ACA23C100D33F96 /* 321.svg in Resources */,
 				6D16D1DC2AB67D2D0035137C /* LaunchScreen.storyboard in Resources */,
 				6D4E3B272ACA24DA00D33F96 /* test.png in Resources */,
@@ -329,6 +418,8 @@
 				6D1328D02ADF5C48005BEB8E /* 12.svg in Resources */,
 				6D7FAD372ADBA1B900DFA2F6 /* 14.svg in Resources */,
 				6DE97BCD2AC1418D0039925C /* 3.svg in Resources */,
+				6DB0D0C72AFCC3440021B2A6 /* Scribe_Launch_Screen_vector.svg in Resources */,
+				6DB0D0C92AFCC3AC0021B2A6 /* Scribe_Launch_Screen.png in Resources */,
 				6D16D1D72AB67D2B0035137C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,6 +432,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6D16D1EA2AB67D2D0035137C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6D3950642AFE05790050B2F2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -389,6 +487,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6D3950622AFE05790050B2F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D39506A2AFE05790050B2F2 /* ThumbnailProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -401,6 +507,11 @@
 			isa = PBXTargetDependency;
 			target = 6D16D1CB2AB67D2B0035137C /* scribe-frontend-ios */;
 			targetProxy = 6D16D1ED2AB67D2D0035137C /* PBXContainerItemProxy */;
+		};
+		6D39506D2AFE057A0050B2F2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6D3950652AFE05790050B2F2 /* scrib-thumbnail */;
+			targetProxy = 6D39506C2AFE057A0050B2F2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -428,6 +539,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -488,6 +600,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -541,6 +654,7 @@
 		6D16D1F72AB67D2D0035137C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -549,31 +663,34 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "scribe-frontend/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Scribe;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ScribeCo.Scribe123;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ScribeCo.ScribeApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6D16D1F82AB67D2D0035137C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -583,18 +700,20 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "scribe-frontend/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Scribe;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ScribeCo.Scribe123;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ScribeCo.ScribeApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -602,7 +721,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -682,6 +801,66 @@
 			};
 			name = Release;
 		};
+		6D3950702AFE057A0050B2F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4GK2KQNVF;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "scrib-thumbnail/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "scrib-thumbnail";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ScribeCo.ScribeApp.scrib-thumbnail";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6D3950712AFE057A0050B2F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4GK2KQNVF;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "scrib-thumbnail/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "scrib-thumbnail";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ScribeCo.ScribeApp.scrib-thumbnail";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -717,6 +896,15 @@
 			buildConfigurations = (
 				6D16D1FD2AB67D2D0035137C /* Debug */,
 				6D16D1FE2AB67D2D0035137C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6D39506F2AFE057A0050B2F2 /* Build configuration list for PBXNativeTarget "scrib-thumbnail" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6D3950702AFE057A0050B2F2 /* Debug */,
+				6D3950712AFE057A0050B2F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

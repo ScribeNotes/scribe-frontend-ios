@@ -9,7 +9,7 @@ import Foundation
 
 //change these at your discretion
 let ipAdress = "10.29.221.90" //Ip adress of computer running api
-let local = false //whether you want to use a local api host or the cloud
+let local = true //whether you want to use a local api host or the cloud
 
 let accessToken = "secrettoken"
 let hostName = "https://scribe-backend-kb7z6w7ssq-ue.a.run.app"
@@ -72,7 +72,7 @@ func APIEvaluateToSVG(with svg: String, completion: @escaping (Result<String, Er
     }
 }
 
-func APIEvaluateToText(with svg: String, completion: @escaping (Result<String, Error>) -> Void) {
+func APIEvaluateToText(with svg: String, completion: @escaping (Result<(String, Float),Error>) -> Void) {
     // Define the URL for the FastAPI route
     var urlString = ""
     if local {
@@ -110,7 +110,8 @@ func APIEvaluateToText(with svg: String, completion: @escaping (Result<String, E
                         // Parse the response data (assuming it's JSON)
                         if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
                            let answer = jsonResponse["answer_text"] as? String {
-                            completion(.success(answer))
+                            let suggested_scale = jsonResponse["suggested_scale"] as! Float
+                            completion(.success((answer, suggested_scale)))
 
                         } else {
                             completion(.failure(NSError(domain: "Response parsing error", code: 0, userInfo: nil)))

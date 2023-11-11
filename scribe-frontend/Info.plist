@@ -11,7 +11,7 @@
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.scribe.scribe</string>
+				<string>com.scribe.scrib</string>
 			</array>
 		</dict>
 	</array>
@@ -61,12 +61,12 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeIdentifier</key>
-			<string>com.scribe.scribe</string>
+			<string>com.scribe.scrib</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-					<string>scribe</string>
+					<string>scrib</string>
 				</array>
 			</dict>
 		</dict>

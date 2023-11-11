@@ -7,6 +7,8 @@
 
 import Foundation
 import PencilKit
+import QuickLook
+import QuickLookThumbnailing
 
 func saveFile(path: String, data: Data) {
     if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
@@ -19,6 +21,7 @@ func saveFile(path: String, data: Data) {
             // Write the SVG content to the file
             try data.write(to: filePath, options: .atomic)
 //            print("New file saved at: \(filePath.path)")
+            
         } catch {
             print("Error writing data content to file: \(error)")
         }
@@ -54,7 +57,7 @@ func getDefaultUnitledNotePath() -> URL {
         }
         
         if let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileUrl = documentsDirectory.appendingPathComponent("Notes/\(fileName).scribe")
+            let fileUrl = documentsDirectory.appendingPathComponent("Notes/\(fileName).scrib")
             
             if !fileManager.fileExists(atPath: fileUrl.path) {
                 return fileUrl
@@ -139,4 +142,37 @@ func folderExists(atPath path: String) -> Bool {
         }
     }
     return false
+}
+
+import UIKit
+import QuickLookThumbnailing
+
+class ScribeThumbnailProvider: QLThumbnailProvider {
+    
+    override func provideThumbnail(for request: QLFileThumbnailRequest, _ handler: @escaping (QLThumbnailReply?, Error?) -> Void) {
+        
+        // Use the fileURL directly from the request
+        let fileURL = request.fileURL
+        
+        // Load the drawing from the .scribe file
+        if let drawing = openDrawingFromURL(fileURL) {
+            
+            // Generate the thumbnail using the drawing's image() function
+            let thumbnailImage = drawing.image(from: CGRect(x: 0, y: 0, width: 1024, height: 1366), scale: 1) // Adjust this according to your drawing object's API
+            
+            // Draw the thumbnail into the current context
+            handler(QLThumbnailReply(contextSize: request.maximumSize, currentContextDrawing: { () -> Bool in
+                // Draw the thumbnail image
+                thumbnailImage.draw(in: CGRect(origin: .zero, size: request.maximumSize))
+                
+                // Return true if the thumbnail was successfully drawn
+                return true
+            }), nil)
+            
+        } else {
+            // Handle error loading the drawing
+            handler(nil, NSError(domain: "com.example.app", code: 2, userInfo: [NSLocalizedDescriptionKey: "Error loading drawing"]))
+        }
+    }
+    
 }

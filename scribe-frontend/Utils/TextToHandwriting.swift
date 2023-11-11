@@ -56,25 +56,31 @@ func textToHandwriting(text:String,
                            force: 0.5,
                            azimuth: 0,
                            altitude: 0),
-                       target_height: CGFloat = 100) -> PKDrawing?{
+                       selection_height: CGFloat = 100,
+                       scale: CGFloat = 1.0) -> PKDrawing?{
+    let spaceAspectRatio = 0.5
+    let target_height = selection_height * scale
     var result = PKDrawing()
-    var currX = placementPoint.x
+    var currX = placementPoint.x + target_height * spaceAspectRatio
     for char in text{
-        var currY = placementPoint.y
+        var currY = placementPoint.y + selection_height/2 - target_height/2
         var currHeight = target_height
         //check for periods and commas
         if char == "." || char == ","{
             let new_height = target_height/10
-            currY = placementPoint.y + target_height - new_height/2
+            currY = placementPoint.y + selection_height/2 + target_height/2 - new_height/2
             currHeight = new_height
         }
         
         if char == "-"{
             let new_height = target_height/50
-            currY = placementPoint.y + target_height/2
+            currY = placementPoint.y + selection_height/2
             currHeight = new_height
         }
-        
+        if char == " "{
+            currX += target_height * spaceAspectRatio
+            continue
+        }
         if let writtenChar = getCharDrawing(character: char, placementPoint: CGPoint(x: currX, y: currY), ink:ink, samplePoint: samplePoint, target_height: currHeight) {
             result.append(writtenChar)
             currX = writtenChar.bounds.maxX + 10
